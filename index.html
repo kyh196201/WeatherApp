@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>WeatherApp</title>
+  </head>
+  <body>
+    <!-- App -->
+    <div id="App">
+      <main class="Container"></main>
+    </div>
+    <script type="module" src="./js/components/Main.js"></script>
+    <script>
+      const END_POINT = "http://apis.data.go.kr/1360000/VilageFcstInfoService";
+      const API_KEY =
+        "FrXPuaL0ls5tHLK%2F2oPRuCoxI6cYNM93hPWcE6Ta0%2B4gZ6BNNCbirWsBEpoJd6tCieQmHFMdYco1fAxaVe0nyg%3D%3D";
+
+      // fetch(
+      //   `https://cors-anywhere.herokuapp.com/${END_POINT}/getUltraSrtFcst?serviceKey=${API_KEY}&numOfRows=30&pageNo=1&dataType=JSON&base_date=20200320&base_time=0200&nx=55&ny=127`
+      // )
+      //   .then(res => {
+      //     if (res.status === 200 || res.status === 201) {
+      //       res.json().then(data => console.log(data));
+      //     } else {
+      //       console.log(res.statusText);
+      //     }
+      //   })
+      //   .catch(err => console.error(err));
+
+      // fetch(
+      //   "https://cors-anywhere.herokuapp.com/http://www.kma.go.kr/DFSROOT/POINT/DATA/top.json.txt"
+      // )
+      //   .then(res => res.json())
+      //   .then(data => console.log(data[0]));
+    </script>
+  </body>
+</html>
