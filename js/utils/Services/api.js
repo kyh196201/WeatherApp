@@ -14,7 +14,7 @@ const getNowWeather = async ({ date, gridXY }) => {
   const baseData = setBase({ mode, date });
   try {
     const response = await fetch(
-      `${CORS}/${END_POINT}/getUltraSrtNcst?serviceKey=${API_KEY}&numOfRows=10&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
+      `${CORS}/${END_POINT}/getUltraSrtNcst?serviceKey=${API_KEY}&numOfRows=30&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
     );
 
     const resStatus = response.status;
