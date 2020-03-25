@@ -86,48 +86,22 @@ class CurrentWeather {
   //reload = false의 경우, 모든 데이터 갱신
   //true의 경우 SKY, T1H, REH값만 갱신
   setState = ({ newData, isReload, locationString }) => {
-    const nowDataItem = newData.nowDataItem;
-    const vilDataItem = newData.vilDataItem;
-
-    //최초 어플 실행의 경우 모든 데이터를 표시해야하므로
-    //모든 데이터 할당
-    //데이터를 새 데이터로 교체 렌더링 함수시작
-    if (!isReload) {
-      const REH = nowDataItem.find(data => data.category === "REH").obsrValue;
-      const T1H = nowDataItem.find(data => data.category === "T1H").obsrValue;
-      const TMN = vilDataItem.find(data => data.category === "TMN").fcstValue;
-      const TMX = vilDataItem.find(data => data.category === "TMX").fcstValue;
-      const SKY = vilDataItem.find(data => data.category === "SKY").fcstValue;
-
-      const newGetData = {
-        REH,
+    const SKY = newData.nowData.find(el => el.category === "SKY");
+    const T1H = newData.nowData.find(el => el.category === "T1H");
+    const REH = newData.nowData.find(el => el.category === "REH");
+    const RN1 = newData.nowData.find(el => el.category === "RN1");
+    this.data = {
+      nowData: {
+        SKY,
         T1H,
-        TMN,
-        TMX,
-        SKY
-      };
-
-      this.data = newGetData;
-    }
-    //선택 데이터만 할당
-    //나머지데이터는 기존의 데이터를 그대로 유지
-    //데이터를 새 데이터로 교체 렌더링 함수 시작
-    else {
-      const REH = nowDataItem.find(data => data.category === "REH").obsrValue;
-      const T1H = nowDataItem.find(data => data.category === "T1H").obsrValue;
-      const SKY = vilDataItem.find(data => data.category === "SKY").fcstValue;
-
-      const newGetData = {
         REH,
-        T1H,
-        TMN: this.data.TMN,
-        TMX: this.data.TMN,
-        SKY
-      };
-
-      this.data = newGetData;
-      console.log("새로고침 시");
-    }
+        RN1
+      },
+      vilData: {
+        TMX: newData.vilData.find(el => el.category === "TMX"),
+        TMN: newData.vilData.find(el => el.category === "TMN")
+      }
+    };
     this.locationString = locationString;
     this.render();
   };

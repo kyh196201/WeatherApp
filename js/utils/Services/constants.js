@@ -5,4 +5,9 @@ const CLOCK_MODE = {
   DAILY: "D"
 };
 
-export { DAYS, CLOCK_MODE };
+const FILTERING = {
+  CURRENT: ["T1H", "SKY", "RN1", "REH"],
+  VILAGE: ["TMN", "TMX"]
+};
+
+export { DAYS, CLOCK_MODE, FILTERING };

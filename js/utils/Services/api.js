@@ -8,19 +8,27 @@ const API_KEY =
 //초단기실황 api
 //입력받을 데이터, baseDate, baseTime, 좌표
 
-const getNowWeather = async ({ date, gridXY }) => {
+const getNowWeather = async ({ gridXY }) => {
   //Date를 통해 basetime, basedate계산
+  const date = new Date();
   const mode = "current";
   const baseData = setBase({ mode, date });
+  const NUMOFROWS = 50;
   try {
     const response = await fetch(
-      `${CORS}/${END_POINT}/getUltraSrtNcst?serviceKey=${API_KEY}&numOfRows=30&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
+      `${CORS}/${END_POINT}/getUltraSrtFcst?serviceKey=${API_KEY}&numOfRows=${NUMOFROWS}&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
     );
 
     const resStatus = response.status;
     switch (resStatus) {
       case 200:
-        return await response.json();
+        const result = await response.json();
+        if (result.response.header.resultCode !== "00") {
+          const err = new Error();
+          err.message = `${result.response.header.resultCode},${result.response.header.resultMsg}`;
+          throw err;
+        }
+        return result;
         break;
       case 400:
         throw new Error(`Error Occured = ${resStatus}`);
@@ -41,16 +49,18 @@ const getNowWeather = async ({ date, gridXY }) => {
 //동네예보 API
 //isReload를 통해 새로고침인지 최초 어플 실행인지 구분하여 가져오는
 //데이터의 개수 및 baseTime을 조정
-const getVilWeather = async ({ date, gridXY, isReload }) => {
+const getVilWeather = async ({ gridXY, isInit }) => {
   let baseData = null;
-  let numOfRows = 0;
+  let NUMOFROWS = 0;
+
+  const date = new Date();
 
   //새로고침 시에는 현재 시간을 기준으로 데이터를 가져온다,
   //numOfRows를 10, SKY만을 파싱
-  if (isReload) {
+  if (!isInit) {
     const mode = "vilage";
     baseData = setBase({ mode, date });
-    numOfRows = 10;
+    NUMOFROWS = 200;
   }
   // 최초 어플리케이션이 실행될 경우 또는 매시 새벽 2시에 전날 23시 데이터를 기준으로
   // 최저/ 최고 온도 , SKY 지수를 가져온다.
@@ -61,7 +71,7 @@ const getVilWeather = async ({ date, gridXY, isReload }) => {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
-    numOfRows = 50;
+    NUMOFROWS = 50;
     baseData = {
       baseDate: `${year}${month < 10 ? `0${month}` : month}${
         todayDate < 10 ? `0${todayDate}` : todayDate
@@ -72,13 +82,19 @@ const getVilWeather = async ({ date, gridXY, isReload }) => {
 
   try {
     const response = await fetch(
-      `${CORS}/${END_POINT}/getVilageFcst?serviceKey=${API_KEY}&numOfRows=${numOfRows}&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
+      `${CORS}/${END_POINT}/getVilageFcst?serviceKey=${API_KEY}&numOfRows=${NUMOFROWS}&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
     );
 
     const resStatus = response.status;
     switch (resStatus) {
       case 200:
-        return await response.json();
+        const result = await response.json();
+        if (result.response.header.resultCode !== "00") {
+          const err = new Error();
+          err.message = `${result.response.header.resultCode},${result.response.header.resultMsg}`;
+          throw err;
+        }
+        return result;
         break;
       case 400:
         throw new Error(`Error Occured = ${resStatus}`);

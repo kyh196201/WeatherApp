@@ -13,11 +13,16 @@ data  = {
 import CurrentWeather from "../components/CurrentWeather/index.js";
 import dfs_xy_conv from "../utils/Services/gridLatLon.js";
 import { getNowWeather, getVilWeather } from "../utils/Services/api.js";
+import { FILTERING } from "../utils/Services/constants.js";
+import { setBase } from "../utils/Services/functions.js";
 
 class Page {
   //***문제점 발견 : 새로 생성되는 Page일 경우, coords값을 전달해줘야한다. 또는 gridXY값
   constructor({ $target, index }) {
-    this.data = null;
+    this.data = {
+      nowData: [],
+      vilData: []
+    };
     this.$target = $target; //Container
     this.nowDate = new Date();
     this.coords = null;
@@ -51,12 +56,9 @@ class Page {
   setState = ({ newData, isReload }) => {
     this.data = newData;
     this.$currentWeather.setState({
-      newData: {
-        nowDataItem: newData.nowDataItem,
-        vilDataItem: newData.vilDataItem
-      },
+      newData,
       isReload,
-      locationString: newData.locationString
+      locationString: "로드된 주소값"
     });
   };
 
@@ -76,12 +78,58 @@ class Page {
         this.coords.longitude
       );
 
-      ////loadData에 isReload를 넣어볼까?!
-      const newData = await this.loadData({ isReload: false });
-      //여기서 필요한 데이터만 꺼내서 저장해보자!
-      console.log(newData);
+      let finalResult = await Promise.all([
+        (async () => {
+          let newData = [];
+          const nowWeatherData = await getNowWeather({
+            gridXY: this.rs
+          });
+          nowWeatherData.response.body.items.item
+            .filter(data => FILTERING.CURRENT.includes(data.category))
+            .forEach(el => {
+              newData.push({
+                category: el.category,
+                fcstDate: el.fcstDate,
+                fcstTime: el.fcstTime,
+                fcstValue: el.fcstValue
+              });
+            });
+          return newData;
+        })(),
+        (async () => {
+          const newData = [];
+          const vilWeatherData = await getVilWeather({
+            gridXY: this.rs,
+            isInit: true
+          });
+          vilWeatherData.response.body.items.item
+            .filter(data => FILTERING.VILAGE.includes(data.category))
+            .forEach(el => {
+              newData.push({
+                category: el.category,
+                fcstDate: el.fcstDate,
+                fcstTime: el.fcstTime,
+                fcstValue: el.fcstValue
+              });
+            });
+          return newData;
+        })()
+      ]);
+
+      const dailyData = await getVilWeather({
+        date: this.nowDate,
+        gridXY: this.rs,
+        isInit: false
+      });
+      console.log(dailyData);
+
+      const newData = {
+        nowData: finalResult[0],
+        vilData: finalResult[1]
+      };
       this.setState({ newData, isReload: false });
     } catch (e) {
+      console.dir(e);
       console.error(`에러 발생! 메시지 : ${e.message}`);
     }
   };
@@ -102,62 +150,6 @@ class Page {
         reject(new Error("Geolocation is not exist"));
       }
     });
-  };
-
-  //isReload값을 받아와서 각 함수에 전달
-  //vilData를 호출할때 사용
-  //주소값 로드하는 함수도 추가해야함
-  loadData = async ({ isReload }) => {
-    try {
-      //초단기실황
-      const nowData = await getNowWeather({
-        date: this.nowDate,
-        gridXY: this.rs
-      });
-
-      //초단기실황 예외처리 /resultCode에 따라서
-      if (nowData.response.header.resultCode !== "00") {
-        const err = new Error();
-        err.message = `${nowDataHeader.resultCode},${nowDataHeader.resultMsg}`;
-        throw err;
-      }
-
-      const nowDataItem = nowData.response.body.items.item;
-
-      //동네 예보
-      //init함수내에서는 최초 어플이 실행되므로
-      //isReload : false를 할당
-      //isReload = true일경우, 10개의 데이터만 파싱
-      //false일 경우 50개의 데이터
-      const vilData = await getVilWeather({
-        date: this.nowDate,
-        gridXY: this.rs,
-        isReload
-      });
-
-      //동네예보 예외처리
-      if (vilData.response.header.resultCode !== "00") {
-        const err = new Error();
-        err.message = `${vilDataHeader.resultCode},${vilDataHeader.resultMsg}`;
-        throw err;
-      }
-
-      const vilDataItem = vilData.response.body.items.item;
-
-      //주간 데이터 가져오기
-
-      //위치 주소 가져오기
-      //통째로 데이터전달, 각 컴포넌트에서 필요한 데이터를 필터링하도록하자
-      //이 부분 고민.. 여기서 필터링해서 보낼지 아니면 그냥 데이터를 통으로 보낼지!
-      return {
-        nowDataItem,
-        vilDataItem,
-        weeklyData: null,
-        locationString: "로드된 주소값"
-      };
-    } catch (e) {
-      throw e;
-    }
   };
 }
 

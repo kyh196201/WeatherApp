@@ -24,7 +24,7 @@ function setBase({ mode, date }) {
   let minute = d.getMinutes();
 
   if (mode === "current") {
-    if (minute < 40) {
+    if (minute < 46) {
       hour = hour - 1;
       if (hour < 0) {
         //시간이 0시 일 경우 전날 23시의 데이터를 가져와야한다.
@@ -35,6 +35,7 @@ function setBase({ mode, date }) {
         hour = 23;
       }
     }
+    minute = 30;
   }
   //동네예보 baseTime set
   else if (mode === "vilage") {
@@ -63,16 +64,20 @@ function setBase({ mode, date }) {
         hour = 23;
       }
     }
+    minute = 0;
   }
   baseDate = `${year}${month < 10 ? `0${month}` : month}${
     todayDate < 10 ? `0${todayDate}` : todayDate
   }`;
-  baseTime = `${hour < 10 ? `0${hour}` : hour}00`;
+  baseTime = `${hour < 10 ? `0${hour}` : hour}${
+    minute < 10 ? `0${minute}` : minute
+  }`;
 
-  return {
+  const result = {
     baseDate,
     baseTime
   };
+  return result;
 }
 
 export { addEvent, setBase };

@@ -29,13 +29,13 @@ class Section {
   }
 
   render = () => {
-    this.$currentInfo.innerHTML = `맑음 : ${this.data.SKY}, 현재 온도 : ${this.data.T1H}, 최고 : ${this.data.TMX}, 최저 : ${this.data.TMN}, 습도 : ${this.data.REH}`;
+    this.$currentInfo.innerHTML = `맑음 : ${this.nowData.SKY.fcstValue}, 현재 온도 : ${this.nowData.T1H.fcstValue}, 최고 : ${this.vilData.TMX.fcstValue}, 최저 : ${this.vilData.TMN.fcstValue}, 습도 : ${this.nowData.REH.fcstValue}`;
     this.$currentGreet.innerHTML = "Greet value will be here";
   };
 
   setState = newData => {
-    this.data = newData;
-    console.log(newData);
+    this.nowData = newData.nowData;
+    this.vilData = newData.vilData;
     this.render();
   };
 }

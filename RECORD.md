@@ -377,6 +377,47 @@ vilData : []
    Promise.all을 사용해보자.
    링크 : <https://stackoverflow.com/questions/35612428/call-async-await-functions-in-parallel>
 
+//////////////////////////
+
+수정한것
+
+1. filter = 조건이 true가 되는 엘리먼트들을 필터링한다
+   이때, 엘리먼트의 해당 키값의 value에 따라 필터링하고 싶었는데, 조건들을 SAMPLE이라는 배열에 저장해놓고, 해당 키값의 value가 SAMPLE이라는 배열 안에 존재하는지 확인하여 있으면 true를 반환하는 includes함수를 통해 해결했다.
+
+2. 그리고 loadData함수를 제거하고, 각 데이터를 불러오는 함수를 따로 호출했다.
+
+3. 최초 init함수 실행시 vilData의 데이터개수를 그냥 200개로 설정.
+   => 페이징 기법을 어떻게해야할지 모르겠다.
+
+4. 각 불러온 데이터들에서 원하는 값만을 추출해서 page내의 data 객체에 저장하도록 설정.
+
+5. Promise.all [O]
+
+6. API변경 : 초단기실황 -> 초단기 예보
+   따라서 초단기예보에서 ,T1H, SKY, REH, R1N을 불러온다.
+   => baseTime변경
+   => 초기 동네예보에서는 최고/최저온도만 불러온다.
+
+7. getVailData 변경
+
+   7.1 변경안
+   : 최초에 TMN,TMX값만 가져온다 시간 기준 : 전날 23시
+   =>NUMOFROWS : 50
+   : 그리고 최초 어플 실행시에도 현재시간을 기준으로 데이터 가져와야함
+   => 3시간온도, 강수확률, 강수량 등등..
+   =>NUMOFROWS : 200
+   => isInit이라는 Flag변수를 생성,
+   => isInit = true일시 초기화이므로, 23시데이터, 50개
+   => isInit = Flase일시 새로고침 및 시간대날씨데이터
+   => 200개, 현재시간 기준 데이터
+   => POP,R06,S06,T3H,SKY,
+
+   7.2 3개를 동시에 promise.all로 가져올수 있나?
+
+8. 문제점 찾은거 : page의 nowDate를 각 api, setbase가 참조해서 date의 값이 변경된다. getVilWeather의 date.setdate()부분때문인듯
+   =>따라서 참조한 date값을 새로운 변수에 담아서 사용하자.[X]
+   그냥 api내에서 새 date객체를 만드는 방식으로!
+
 참고할 자료 :
 
 위치주소 : https://elecs.tistory.com/21?category=636509,
