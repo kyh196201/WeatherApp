@@ -9,7 +9,7 @@ function App({ $target }) {
 
     const $container = document.createElement("div");
     this.$container = $container;
-    this.$container.className = "container";
+    this.$container.className = "App-Container";
 
     //Put Components into $container
     this.$page = new Page({

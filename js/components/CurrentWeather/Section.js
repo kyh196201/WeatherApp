@@ -36,6 +36,7 @@ class Section {
   setState = newData => {
     this.nowData = newData.nowData;
     this.vilData = newData.vilData;
+    console.log(this.nowData, this.vilData);
     this.render();
   };
 }

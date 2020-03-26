@@ -11,6 +11,11 @@ class CurrentWeather {
     this.data = data;
     this.locationString = locationString;
 
+    //섹션 컴포넌트 생성
+    const $wrapper = document.createElement("section");
+    $wrapper.className = "CurrentWeather__wrapper";
+    this.$wrapper = $wrapper;
+
     //헤더 컴포넌트 생성
     const $header = document.createElement("header");
     $header.className = "CurrentWeather__header";
@@ -59,14 +64,16 @@ class CurrentWeather {
     this.$nav.appendChild(this.$buttons);
 
     //어펜드
-    this.$target.appendChild(this.$header);
-    this.$target.appendChild(this.$nav);
+    this.$wrapper.appendChild(this.$header);
+    this.$wrapper.appendChild(this.$nav);
 
     //섹션 컴포넌트 생성
     this.$section = new Section({
-      $target: this.$target,
+      $target: this.$wrapper,
       data: null
     });
+
+    this.$target.appendChild(this.$wrapper);
 
     new TimeStamp({ $target: this.$timeStamp, mode: CLOCK_MODE.CURRENT });
     this.$location.innerHTML = this.locationString;
@@ -78,8 +85,6 @@ class CurrentWeather {
   render = () => {
     this.$section.setState(this.data);
     this.$location.innerHTML = this.locationString;
-
-    console.log("최초 어플 작동");
   };
 
   //setState에서 page에서 전달된 isReload(flag)값을 통해 전달/갱신할 값을 선별한다.

@@ -19,14 +19,15 @@ class TimeStamp {
     const seconds = d.getSeconds();
     const AMPM = hours > 12 ? "PM" : "AM";
     let dString = "";
+    let dateString = `${month}월 ${date}일`;
+    let timeString = `${hours > 12 ? hours - 12 : hours}:${
+      minutes < 10 ? `0${minutes}` : minutes
+    }:${seconds} ${AMPM}`;
     if (this.mode === CLOCK_MODE.CURRENT) {
-      dString = `${month}월 ${date}일 (${day})  ${
-        hours > 12 ? hours - 12 : hours
-      }:${minutes < 10 ? `0${minutes}` : minutes}:${seconds} ${AMPM}`;
-    } else {
-      dString = "tick in daily";
+      dString = dateString + `(${day})` + timeString;
+    } else if (this.mode === CLOCK_MODE.MAIN) {
+      dString = `<div>${dateString}</div><div>${timeString}</div>`;
     }
-
     this.$target.innerHTML = dString;
   };
 }

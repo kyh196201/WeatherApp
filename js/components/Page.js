@@ -11,6 +11,7 @@ data  = {
 */
 
 import CurrentWeather from "../components/CurrentWeather/index.js";
+import MainWeather from "../components/MainWeather/index.js";
 import dfs_xy_conv from "../utils/Services/gridLatLon.js";
 import { getNowWeather, getVilWeather } from "../utils/Services/api.js";
 import { FILTERING } from "../utils/Services/constants.js";
@@ -38,6 +39,12 @@ class Page {
       $target: this.$page,
       data: null,
       locationString: "서울, 쌍문3동"
+    });
+
+    this.$mainWeather = new MainWeather({
+      $target: this.$page,
+      data: null,
+      locationString: "쌍문 3동"
     });
 
     this.$target.appendChild(this.$page);
