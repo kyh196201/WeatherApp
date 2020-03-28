@@ -90,23 +90,37 @@ class CurrentWeather {
   //setState에서 page에서 전달된 isReload(flag)값을 통해 전달/갱신할 값을 선별한다.
   //reload = false의 경우, 모든 데이터 갱신
   //true의 경우 SKY, T1H, REH값만 갱신
-  setState = ({ newData, isReload, locationString }) => {
+  setState = ({ newData, isInit, locationString }) => {
+    console.log(isInit);
     const SKY = newData.nowData.find(el => el.category === "SKY");
     const T1H = newData.nowData.find(el => el.category === "T1H");
     const REH = newData.nowData.find(el => el.category === "REH");
     const RN1 = newData.nowData.find(el => el.category === "RN1");
-    this.data = {
-      nowData: {
-        SKY,
-        T1H,
-        REH,
-        RN1
-      },
-      vilData: {
-        TMX: newData.vilData.find(el => el.category === "TMX"),
-        TMN: newData.vilData.find(el => el.category === "TMN")
-      }
-    };
+    if (isInit) {
+      this.data = {
+        nowData: {
+          SKY,
+          T1H,
+          REH,
+          RN1
+        },
+        vilData: {
+          TMX: newData.vilData.find(el => el.category === "TMX"),
+          TMN: newData.vilData.find(el => el.category === "TMN")
+        }
+      };
+    } else {
+      const nextData = {
+        nowData: {
+          SKY,
+          T1H,
+          REH,
+          RN1
+        },
+        vilData: this.data.vilData
+      };
+      this.data = nextData;
+    }
     this.locationString = locationString;
     this.render();
   };

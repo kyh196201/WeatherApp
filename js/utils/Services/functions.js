@@ -80,4 +80,18 @@ function setBase({ mode, date }) {
   return result;
 }
 
-export { addEvent, setBase };
+function groupBy(objectArray, property) {
+  return objectArray.reduce(function(acc, obj) {
+    var key = obj[property];
+    //정렬이 안된 원인 0900 = string, 1200 = int 타입이라서 문제 발생
+    const parsedKey = parseInt(key);
+    if (!acc[parsedKey]) {
+      acc[parsedKey] = [];
+    }
+    // delete obj[property]; //이 함수가 진행될때 마다 해당 property에 해당하는 값을 지운다.
+    acc[parsedKey].push(obj);
+    return acc;
+  }, {});
+}
+
+export { addEvent, setBase, groupBy };

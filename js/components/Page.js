@@ -15,7 +15,7 @@ import MainWeather from "../components/MainWeather/index.js";
 import dfs_xy_conv from "../utils/Services/gridLatLon.js";
 import { getNowWeather, getVilWeather } from "../utils/Services/api.js";
 import { FILTERING } from "../utils/Services/constants.js";
-import { setBase } from "../utils/Services/functions.js";
+import { setBase, groupBy } from "../utils/Services/functions.js";
 
 class Page {
   //***문제점 발견 : 새로 생성되는 Page일 경우, coords값을 전달해줘야한다. 또는 gridXY값
@@ -28,6 +28,8 @@ class Page {
     this.nowDate = new Date();
     this.coords = null;
     this.rs = null;
+
+    this.sampleData = [];
 
     const $page = document.createElement("div");
     $page.className = "page";
@@ -55,17 +57,22 @@ class Page {
 
   render = () => {};
 
-  //setState에도 isReload값을 통해 분기하도록 나중에 바꾸자
-  //새로고침 되었을시,
-  //새로고침이아니라 최초 어플 실행시
-  //* 여기서 데이터를 선별해서 보내볼가?!
-  //currentWeather에서 reH등등을 관리한것을 여기서해보자
-  setState = ({ newData, isReload }) => {
+  setState = ({ newData, isInit, locationString }) => {
     this.data = newData;
     this.$currentWeather.setState({
-      newData,
-      isReload,
-      locationString: "로드된 주소값"
+      newData: {
+        nowData: newData.nowData,
+        vilData: newData.vilData
+      },
+      isInit,
+      locationString: locationString
+    });
+    this.$mainWeather.setState({
+      newData: {
+        byTimeData: newData.byTimeData,
+        weeklyData: null
+      },
+      locationString: locationString
     });
   };
 
@@ -75,10 +82,8 @@ class Page {
   init = async () => {
     //***문제점 발견2 : 새로 생성된 Page의 경우 x,y값이 있으므로 굳이 coord를 가져올 필요가없다.
     try {
-      //geoLocation을 통해 lat,lon 좌표를 불러온다.
       this.coords = await this.getPosition(null);
 
-      //lat,lon -> grid
       this.rs = dfs_xy_conv(
         "toXY",
         this.coords.latitude,
@@ -120,21 +125,30 @@ class Page {
               });
             });
           return newData;
+        })(),
+        (async () => {
+          const byTimeData = await getVilWeather({
+            gridXY: this.rs,
+            isInit: false
+          });
+          const groupedByDate = groupBy(
+            byTimeData.response.body.items.item,
+            "fcstDate"
+          );
+          const groupedByTime = Object.values(groupedByDate).map(el => {
+            return Object.values(groupBy(el, "fcstTime"));
+          });
+          return groupedByTime;
         })()
       ]);
 
-      const dailyData = await getVilWeather({
-        date: this.nowDate,
-        gridXY: this.rs,
-        isInit: false
-      });
-      console.log(dailyData);
-
       const newData = {
         nowData: finalResult[0],
-        vilData: finalResult[1]
+        vilData: finalResult[1],
+        byTimeData: finalResult[2]
       };
-      this.setState({ newData, isReload: false });
+      console.log(newData);
+      this.setState({ newData, isInit: true, locationString: "로드된 주소값" });
     } catch (e) {
       console.dir(e);
       console.error(`에러 발생! 메시지 : ${e.message}`);

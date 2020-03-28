@@ -8,7 +8,7 @@ const CLOCK_MODE = {
 const FILTERING = {
   CURRENT: ["T1H", "SKY", "RN1", "REH"],
   VILAGE: ["TMN", "TMX"],
-  DAILY: ["POP", "R06", "S06", "T3H", "SKY"]
+  BYTIME: ["POP", "R06", "S06", "T3H", "SKY"]
 };
 
 export { DAYS, CLOCK_MODE, FILTERING };

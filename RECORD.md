@@ -374,7 +374,7 @@ vilData : []
 
    \*\*\* loadData를 분리하자!!
    why???데이터 하나를 불러오는걸 완료하고 또 다른 데이터를 불러오므로 효율이떨어짐 따라서 필요할때 동시에 데이터들을 불러와야한다.
-   Promise.all을 사용해보자.
+   Promise.all을 사용해보자. [O]
    링크 : <https://stackoverflow.com/questions/35612428/call-async-await-functions-in-parallel>
 
 //////////////////////////
@@ -413,6 +413,7 @@ vilData : []
    => POP,R06,S06,T3H,SKY,
 
    7.2 3개를 동시에 promise.all로 가져올수 있나?
+   => 가능!
 
 8. 문제점 찾은거 : page의 nowDate를 각 api, setbase가 참조해서 date의 값이 변경된다. getVilWeather의 date.setdate()부분때문인듯
    =>따라서 참조한 date값을 새로운 변수에 담아서 사용하자.[X]
@@ -427,10 +428,11 @@ vilData : []
 1. 두번째 섹션 만들기 : 섹션은 그냥 엘리먼트로 만들고, 안에있는
    시간대별, 주간 날씨를 표시하는 부분을 엘리먼트로 만든다.
    1.1 header-timestamp [O]
-   1.2 header-location
+   1.2 header-location [O]
    1.3 시간대별 날씨 구조잡기
 
-2.
+2. byTimeData를 가져오는 데는 성공했으나 이것을 어떻게 렌더링할지 생각해보자
+   => fcstTime을 기준으로 데이터를 묶을수있나?!
 
 ---
 
@@ -443,6 +445,54 @@ vilData : []
 2. App 하위의 Container의 클래스명을 App-conatiner로 수정
 
 ---
+
+////////////////////
+
+03/27
+
+오늘 수정한 것
+
+1. 시간대별 데이터 정렬까지 성공
+
+2.
+
+---
+
+오늘 할 것
+
+1. 시간대별날씨 컴포넌트 만들고, 렌더링하기
+
+2. groupBy()함수 연습하기
+
+---
+
+오늘 배운 것
+
+1. str.substr()
+
+2. Object.keys(), Object.values()
+
+3. array.reduce(), array.filter(), array.map()
+
+////////////////////
+
+03/28
+
+오늘 한 것
+
+1. Page -> MainWeather -> ByTimeWeather.js 중에서
+
+2. ByTimeWeather.js에 데이터 렌더링 까지 성공
+
+---
+
+내일 할 것
+
+1. ByTimeWeather.js에 데이터 렌더링된 데이터 구조 다시 잡기, 좀더 자세히 표시
+   => 아이콘도 해야한다
+   => 첫번째 시간이 현재 2시 35분인데 06시 부터 데이터가 나온다. 따라서 baseTime을 3시간 전으로 해야하나?!
+   => 개선 방안 : 처음에 Page의 init에서 로드한 현재 온도(초단기예보)의 데이터를 이용해서 지금(현재)에 해당하는 부분을 렌더링 하면 되지 않을까?!
+2. 주간 데이터 및 지역 코드 불러오기 도전해보자
 
 참고할 자료 :
 
