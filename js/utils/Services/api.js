@@ -1,7 +1,11 @@
 import { setBase } from "../Services/functions.js";
 
 const CORS = "https://cors-anywhere.herokuapp.com";
-const END_POINT = "http://apis.data.go.kr/1360000/VilageFcstInfoService";
+const END_POINT = "http://apis.data.go.kr/1360000";
+const SERVICE = {
+  VILAGE: "VilageFcstInfoService",
+  MID: "MidFcstInfoService"
+};
 const API_KEY =
   "FrXPuaL0ls5tHLK%2F2oPRuCoxI6cYNM93hPWcE6Ta0%2B4gZ6BNNCbirWsBEpoJd6tCieQmHFMdYco1fAxaVe0nyg%3D%3D";
 
@@ -16,7 +20,7 @@ const getNowWeather = async ({ gridXY }) => {
   const NUMOFROWS = 50;
   try {
     const response = await fetch(
-      `${CORS}/${END_POINT}/getUltraSrtFcst?serviceKey=${API_KEY}&numOfRows=${NUMOFROWS}&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
+      `${CORS}/${END_POINT}/${SERVICE.VILAGE}/getUltraSrtFcst?serviceKey=${API_KEY}&numOfRows=${NUMOFROWS}&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
     );
 
     const resStatus = response.status;
@@ -54,35 +58,36 @@ const getVilWeather = async ({ gridXY, isInit }) => {
   let NUMOFROWS = 0;
 
   const date = new Date();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
 
   //새로고침 시에는 현재 시간을 기준으로 데이터를 가져온다,
   //numOfRows를 10, SKY만을 파싱
-  if (!isInit) {
-    const mode = "vilage";
-    baseData = setBase({ mode, date });
-    NUMOFROWS = 200;
-  }
-  // 최초 어플리케이션이 실행될 경우 또는 매시 새벽 2시에 전날 23시 데이터를 기준으로
-  // 최저/ 최고 온도 , SKY 지수를 가져온다.
-  //numOfRows를 50
-  else {
-    date.setDate(date.getDate() - 1);
+  if (isInit) {
+    //새벽 2시 이전
+    if (hours < 2) {
+      date.setDate(date.getDate() - 1);
+    }
     const todayDate = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
 
-    NUMOFROWS = 50;
+    NUMOFROWS = 200;
     baseData = {
       baseDate: `${year}${month < 10 ? `0${month}` : month}${
         todayDate < 10 ? `0${todayDate}` : todayDate
       }`,
-      baseTime: "2300"
+      baseTime: "0200"
     };
+  } else {
+    const mode = "vilage";
+    baseData = setBase({ mode, date });
+    NUMOFROWS = 200;
   }
 
   try {
     const response = await fetch(
-      `${CORS}/${END_POINT}/getVilageFcst?serviceKey=${API_KEY}&numOfRows=${NUMOFROWS}&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
+      `${CORS}/${END_POINT}/${SERVICE.VILAGE}/getVilageFcst?serviceKey=${API_KEY}&numOfRows=${NUMOFROWS}&pageNo=1&dataType=JSON&base_date=${baseData.baseDate}&base_time=${baseData.baseTime}&nx=${gridXY.x}&ny=${gridXY.y}`
     );
 
     const resStatus = response.status;

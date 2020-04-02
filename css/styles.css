@@ -1,3 +1,15 @@
 .byTimeWeather__field {
   display: flex;
 }
+
+/*임시 addrSearch*/
+
+.AddrSearch {
+  border: 3px solid red;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background: powderblue;
+  top: 0;
+  left: 0;
+}

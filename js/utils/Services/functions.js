@@ -43,7 +43,7 @@ function setBase({ mode, date }) {
       //시간이 2,5,8,중에 하나이지만 10분이 안지났을 경우
       if (minute <= 10) {
         hour = hour - 3;
-        //시간이 2시 일경우 전날 23시의 데이터를 받아와야한다.
+        //시간이 2시 이전 일경우 전날 23시의 데이터를 받아와야한다.
         if (hour < 0) {
           d.setDate(todayDate - 1);
           year = d.getFullYear();
@@ -69,9 +69,7 @@ function setBase({ mode, date }) {
   baseDate = `${year}${month < 10 ? `0${month}` : month}${
     todayDate < 10 ? `0${todayDate}` : todayDate
   }`;
-  baseTime = `${hour < 10 ? `0${hour}` : hour}${
-    minute < 10 ? `0${minute}` : minute
-  }`;
+  baseTime = `${hour < 10 ? `0${hour}` : hour}00`;
 
   const result = {
     baseDate,

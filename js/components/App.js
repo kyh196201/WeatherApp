@@ -1,4 +1,3 @@
-import CurrentWeather from "./CurrentWeather/index.js";
 import Page from "./Page.js";
 
 function App({ $target }) {
@@ -7,17 +6,17 @@ function App({ $target }) {
   const init = () => {
     this.$target = $target;
 
-    const $container = document.createElement("div");
-    this.$container = $container;
-    this.$container.className = "App-Container";
+    const $appContainer = document.createElement("div");
+    this.$appContainer = $appContainer;
+    this.$appContainer.className = "App-Container";
 
     //Put Components into $container
     this.$page = new Page({
-      $target: this.$container,
-      index: this.$container.childNodes.length
+      $target: this.$appContainer,
+      index: this.$appContainer.childNodes.length
     });
 
-    this.$target.appendChild(this.$container);
+    this.$target.appendChild(this.$appContainer);
   };
 
   init();

@@ -91,7 +91,6 @@ class CurrentWeather {
   //reload = false의 경우, 모든 데이터 갱신
   //true의 경우 SKY, T1H, REH값만 갱신
   setState = ({ newData, isInit, locationString }) => {
-    console.log(isInit);
     const SKY = newData.nowData.find(el => el.category === "SKY");
     const T1H = newData.nowData.find(el => el.category === "T1H");
     const REH = newData.nowData.find(el => el.category === "REH");
