@@ -13,23 +13,33 @@ data  = {
 import CurrentWeather from "../components/CurrentWeather/index.js";
 import MainWeather from "../components/MainWeather/index.js";
 import dfs_xy_conv from "../utils/Services/gridLatLon.js";
-import { getNowWeather, getVilWeather } from "../utils/Services/api.js";
+import {
+  getNowWeather,
+  getVilWeather,
+  displayLocation
+} from "../utils/Services/api.js";
 import { FILTERING } from "../utils/Services/constants.js";
-import { setBase, groupBy } from "../utils/Services/functions.js";
+import {
+  setBase,
+  groupBy,
+  getPosition,
+  loading
+} from "../utils/Services/functions.js";
 
 class Page {
   //***문제점 발견 : 새로 생성되는 Page일 경우, coords값을 전달해줘야한다. 또는 gridXY값
-  constructor({ $target, index }) {
+  constructor({ $target, index, locationData }) {
     this.data = {
       nowData: [],
       vilData: []
     };
-    this.$target = $target; //Container
+    this.$target = $target;
     this.nowDate = new Date();
-    this.coords = null;
-    this.rs = null;
+    this.index = index;
+    this.locationData = locationData;
+    console.log(this.locationData);
 
-    this.sampleData = [];
+    //grid, target예외처리 null일시
 
     const $page = document.createElement("div");
     $page.className = "page";
@@ -39,7 +49,7 @@ class Page {
 
     this.$currentWeather = new CurrentWeather({
       $target: this.$page,
-      data: null,
+      data: {},
       locationString: "서울, 쌍문3동"
     });
 
@@ -51,28 +61,26 @@ class Page {
 
     this.$target.appendChild(this.$page);
 
-    //좌표, 시간값 설정
     this.init();
   }
 
   render = () => {};
 
-  setState = ({ newData, isInit, locationString }) => {
+  setState = ({ newData }) => {
     this.data = newData;
     this.$currentWeather.setState({
       newData: {
         nowData: newData.nowData,
-        vilData: newData.vilData
-      },
-      isInit,
-      locationString: locationString
+        vilData: newData.vilData,
+        locationString: newData.locationString
+      }
     });
     this.$mainWeather.setState({
       newData: {
         byTimeData: newData.byTimeData,
-        weeklyData: null
-      },
-      locationString: locationString
+        weeklyData: null,
+        locationString: newData.locationString
+      }
     });
   };
 
@@ -80,21 +88,14 @@ class Page {
   //constructor은 리턴값이 객체이므로 async와 함게사용할 수 없다
   //왜냐하면 async는 리턴값이 프로미스이기때문
   init = async () => {
-    //***문제점 발견2 : 새로 생성된 Page의 경우 x,y값이 있으므로 굳이 coord를 가져올 필요가없다.
     try {
-      this.coords = await this.getPosition(null);
-
-      this.rs = dfs_xy_conv(
-        "toXY",
-        this.coords.latitude,
-        this.coords.longitude
-      );
-
+      loading(true);
       let finalResult = await Promise.all([
         (async () => {
           let newData = [];
           const nowWeatherData = await getNowWeather({
-            gridXY: this.rs
+            x: this.locationData.x,
+            y: this.locationData.y
           });
           nowWeatherData.response.body.items.item
             .filter(data => FILTERING.CURRENT.includes(data.category))
@@ -111,7 +112,8 @@ class Page {
         (async () => {
           const newData = [];
           const vilWeatherData = await getVilWeather({
-            gridXY: this.rs,
+            x: this.locationData.x,
+            y: this.locationData.y,
             isInit: true
           });
           vilWeatherData.response.body.items.item
@@ -128,7 +130,8 @@ class Page {
         })(),
         (async () => {
           const byTimeData = await getVilWeather({
-            gridXY: this.rs,
+            x: this.locationData.x,
+            y: this.locationData.y,
             isInit: false
           });
           const groupedByDate = groupBy(
@@ -139,38 +142,33 @@ class Page {
             return Object.values(groupBy(el, "fcstTime"));
           });
           return groupedByTime;
+        })(),
+        (async () => {
+          const location = await displayLocation({
+            lat: this.locationData.lat,
+            lng: this.locationData.lng
+          });
+          return location.results
+            .filter(item => {
+              return item.types.includes("postal_code");
+            })[0]
+            .formatted_address.substring(5);
         })()
       ]);
 
       const newData = {
         nowData: finalResult[0],
         vilData: finalResult[1],
-        byTimeData: finalResult[2]
+        byTimeData: finalResult[2],
+        locationString: finalResult[3]
       };
       console.log(newData);
-      this.setState({ newData, isInit: true, locationString: "로드된 주소값" });
+      this.setState({ newData });
+      loading(false);
     } catch (e) {
       console.dir(e);
       console.error(`에러 발생! 메시지 : ${e.message}`);
     }
-  };
-
-  //래퍼런스 : https://kkiuk.tistory.com/212
-  getPosition = options => {
-    return new Promise(function(resolve, reject) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          pos => {
-            resolve(pos.coords);
-          },
-          () => {
-            reject(new Error("Request is failed"));
-          }
-        );
-      } else {
-        reject(new Error("Geolocation is not exist"));
-      }
-    });
   };
 }
 

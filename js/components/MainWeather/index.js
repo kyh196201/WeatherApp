@@ -44,9 +44,9 @@ class MainWeather {
     this.$locationInfo.innerHTML = this.locationString;
   }
 
-  setState = ({ newData, locationString }) => {
+  setState = ({ newData }) => {
     this.data = newData;
-    this.locationString = locationString;
+    this.locationString = newData.locationString;
     this.render();
   };
 

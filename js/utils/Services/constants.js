@@ -11,4 +11,10 @@ const FILTERING = {
   BYTIME: ["POP", "R06", "S06", "T3H", "SKY"]
 };
 
-export { DAYS, CLOCK_MODE, FILTERING };
+const TYPESLIST = {
+  w: "WIDE",
+  c: "CITY",
+  d: "DONG"
+};
+
+export { DAYS, CLOCK_MODE, FILTERING, TYPESLIST };

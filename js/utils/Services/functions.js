@@ -11,6 +11,24 @@ function addEvent(evnt, $elem, func) {
   }
 }
 
+//래퍼런스 : https://kkiuk.tistory.com/212
+const getPosition = options => {
+  return new Promise(function(resolve, reject) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          resolve(pos.coords);
+        },
+        () => {
+          reject(new Error("Request is failed"));
+        }
+      );
+    } else {
+      reject(new Error("Geolocation is not exist"));
+    }
+  });
+};
+
 //날짜 계산 함수
 function setBase({ mode, date }) {
   let baseTime = null;
@@ -92,4 +110,13 @@ function groupBy(objectArray, property) {
   }, {});
 }
 
-export { addEvent, setBase, groupBy };
+function loading(isLoading) {
+  const loader = document.getElementById("loader");
+  if (isLoading) {
+    loader.classList.add("active");
+  } else {
+    loader.classList.remove("active");
+  }
+}
+
+export { addEvent, setBase, groupBy, getPosition, loading };

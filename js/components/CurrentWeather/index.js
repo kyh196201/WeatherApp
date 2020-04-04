@@ -88,39 +88,35 @@ class CurrentWeather {
   };
 
   //setState에서 page에서 전달된 isReload(flag)값을 통해 전달/갱신할 값을 선별한다.
-  //reload = false의 경우, 모든 데이터 갱신
-  //true의 경우 SKY, T1H, REH값만 갱신
-  setState = ({ newData, isInit, locationString }) => {
-    const SKY = newData.nowData.find(el => el.category === "SKY");
-    const T1H = newData.nowData.find(el => el.category === "T1H");
-    const REH = newData.nowData.find(el => el.category === "REH");
-    const RN1 = newData.nowData.find(el => el.category === "RN1");
-    if (isInit) {
-      this.data = {
-        nowData: {
-          SKY,
-          T1H,
-          REH,
-          RN1
-        },
-        vilData: {
-          TMX: newData.vilData.find(el => el.category === "TMX"),
-          TMN: newData.vilData.find(el => el.category === "TMN")
-        }
+  //isinit = true의 경우 또는 새벽2시 이후 새로고침 된경우?!, 모든 데이터 갱신
+  //false의 경우 SKY, T1H, REH값만 갱신
+  setState = ({ newData }) => {
+    const SKY = newData.nowData.filter(el => el.category === "SKY");
+    const T1H = newData.nowData.filter(el => el.category === "T1H");
+    const REH = newData.nowData.filter(el => el.category === "REH");
+    const RN1 = newData.nowData.filter(el => el.category === "RN1");
+
+    const TMX = newData.vilData.filter(el => el.category === "TMX");
+    const TMN = newData.vilData.filter(el => el.category === "TMN");
+
+    const d = new Date();
+    const todayDate = d.getDate();
+    const dateEnd = parseInt(TMX[0].fcstDate.substring(6));
+
+    this.data["nowData"] = {
+      SKY: SKY[0],
+      T1H: T1H[0],
+      REH: REH[0],
+      RN1: RN1[0]
+    };
+
+    if (!this.data.vilData || todayDate === dateEnd) {
+      this.data["vilData"] = {
+        TMX: TMX[0],
+        TMN: TMN[0]
       };
-    } else {
-      const nextData = {
-        nowData: {
-          SKY,
-          T1H,
-          REH,
-          RN1
-        },
-        vilData: this.data.vilData
-      };
-      this.data = nextData;
     }
-    this.locationString = locationString;
+    this.locationString = newData.locationString;
     this.render();
   };
 
@@ -136,7 +132,8 @@ class CurrentWeather {
     });
 
     addEvent("click", this.$plusBtn, e => {
-      console.log("plus");
+      const $addSearch = document.querySelector(".AddrSearch ");
+      $addSearch.classList.add("active");
     });
   };
 }

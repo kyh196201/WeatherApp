@@ -523,7 +523,93 @@ vilData : []
 
 ////
 
-1. 중기육상예보조회 데이터 파싱
+04/03
+
+수정할 것
+
+1. 첫번째 page에 coord, gridXy를 app.js에서 전달하는 방식으로 수정해보자
+   => 두번재 페이지를 생성할때 매개변수로 좌표를 전달할 수 있도록, [O]
+
+2. 새로고침 버튼 클릭시 app.js에 있는 함수 호출 및 app.js의 기본 좌표 변경.
+
+3. new Page 함수를 통해서 만들었는데 이부분 고민 필요,,
+
+4. 최초 표시되는 주소를 page생성할때 전달해야하는가? [X] => 전달받은 좌표를 구글 api를 활용해 주소값을 받아온다.
+
+5. addSearch 컴포넌트를 제일위로 올리자, 새 페이지가 추가될때 위치가 애매함 [O]
+
+6. 구글 api사용해서 lat,lng값으로 주소를불러온다 -> 이를 page의 setState에 전달해서 각 페이지에 뿌려준다.
+   6.1 어떻게 렌더링할지, 어떻게 주소값을 스트링형태로 가져올지 고민 [O] 스트링형태로 받아옴.
+   6.2 지역코드??!
+
+7. this.\$currentWeather에 data : null => data:{}로 수정했다.
+   currentWeather의 index.js에서 받아온 데이터를
+   this.data에 동적으로 추가해야하는데
+   초기에 null로되어있었기 때문에 this.data[''] = {}이런식으로
+   추가할때 'Uncaught TypeError: Cannot set property 'value' of null'가 발생했다.
+   말그대로 null에 값을 넣을수 없다는뜻!
+   그래서 빈 객체로 바꿔줬다!
+
+8) currentWeather index.js의 setState 변경
+   isInit 삭제, 가져온 데이터에서 TMX,TMN은 잘 결정해서 수정해야하는데, 가져온 데이터의 첫번째 값의 fcstDate의 날짜(끝 2글자)가 현재 날짜와 같으면 교체! 다르면 기각
+
+9. 어떻게하면 fetch 속도를 올릴수있을까.. 고민
+
+10. 디자인 필요
+
+////
+
+04/04
+
+오늘 할 것
+
+1. 로드 화면 추가 async, await이용 [O]
+
+2. addSearch 데이터 가져오는 것을 화면이 클릭되었을시로 변경
+
+3. 전체적인 design
+
+---
+
+시도중
+
+1. 로드 화면 만들기 :
+   1.1 컴포넌트화? 아니면 그냥 함수화?!
+   => 미리 생성해놓고 함수하자.
+   1.2 img width동적으로 결정?! X => 미디어쿼리 사용!
+   1.3 로딩화면 function 생성
+   => true-> display block ,false->display none으로동작하도록 [O]
+
+2. 추가하기 버튼 클릭시 addsearch화면 나오도록
+   display -> visibility = hidden으로 변경
+   두개의 차이점 : <http://webberstudy.com/html-css/css-2/display-and-visibility-property/> [O]
+
+3. AddSearch 컴포넌트에 닫기버튼 추가 [O]
+
+4. 문제점 발견 -> addSearch를 통해 도시를 선택하고 다시 추가하기 버튼을 통해 addSearch에 들어가면 마지막 level3의 데이터들이 남아있다.
+   => getData의 구조를 변화하고,
+   처음에 level 1의데이터를 initialData로 받아놨다가,
+   도시를 선택하면 다시 this.data를 initialData로 바꿔서 render하도록 변경해보자
+   4.1 우선 getdata안의 setState삭제.
+
+   [X]
+
+5. 문제점 2 => gridXY를 변경해서 displayLocation을하면 정확도가 너무떨어진다따라서 gridXY말고 lat,lon값을 전달해야한다.
+   [O] 데이터 구조 변경 성공, gridXY 변경하는 함수에서 애초에 x,y,lat,lng가 나오므로
+   전체적으로 locationData를 만들어서 전송함.
+
+---
+
+해결할 것
+
+1. addSearch 마지막 렌더링된 값 남아잇는것 해결하기
+
+2. page를 새로 생성하면 이걸 저장했다가 다시 불러오는 것.
+   => 해당 좌표만 있으면 계속 생성할 수 있지 않을까?!!
+
+////
+
+6. 중기육상예보조회 데이터 파싱
    1.1 데이터 요청 후 정보 파악
 
 참고할 자료 :
