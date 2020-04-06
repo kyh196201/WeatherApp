@@ -5,11 +5,11 @@ import TimeStamp from "../../utils/Services/TimeStamp.js";
 import { CLOCK_MODE } from "../../utils/Services/constants.js";
 
 class CurrentWeather {
-  constructor({ $target, data, locationString }) {
+  constructor({ $target, data, addressString }) {
     //$target = page
     this.$target = $target;
     this.data = data;
-    this.locationString = locationString;
+    this.addressString = addressString;
 
     //섹션 컴포넌트 생성
     const $wrapper = document.createElement("section");
@@ -76,7 +76,7 @@ class CurrentWeather {
     this.$target.appendChild(this.$wrapper);
 
     new TimeStamp({ $target: this.$timeStamp, mode: CLOCK_MODE.CURRENT });
-    this.$location.innerHTML = this.locationString;
+    this.$location.innerHTML = this.addressString;
 
     //이벤트 생성
     this.bindEvents();
@@ -84,12 +84,9 @@ class CurrentWeather {
 
   render = () => {
     this.$section.setState(this.data);
-    this.$location.innerHTML = this.locationString;
+    this.$location.innerHTML = this.addressString;
   };
 
-  //setState에서 page에서 전달된 isReload(flag)값을 통해 전달/갱신할 값을 선별한다.
-  //isinit = true의 경우 또는 새벽2시 이후 새로고침 된경우?!, 모든 데이터 갱신
-  //false의 경우 SKY, T1H, REH값만 갱신
   setState = ({ newData }) => {
     const SKY = newData.nowData.filter(el => el.category === "SKY");
     const T1H = newData.nowData.filter(el => el.category === "T1H");
@@ -116,7 +113,7 @@ class CurrentWeather {
         TMN: TMN[0]
       };
     }
-    this.locationString = newData.locationString;
+    this.addressString = newData.addressString;
     this.render();
   };
 

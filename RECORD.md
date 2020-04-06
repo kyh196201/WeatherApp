@@ -602,15 +602,84 @@ vilData : []
 
 해결할 것
 
-1. addSearch 마지막 렌더링된 값 남아잇는것 해결하기
+1. addSearch 마지막 렌더링된 값 남아잇는것 해결하기 [O]
 
 2. page를 새로 생성하면 이걸 저장했다가 다시 불러오는 것.
    => 해당 좌표만 있으면 계속 생성할 수 있지 않을까?!!
 
 ////
 
-6. 중기육상예보조회 데이터 파싱
-   1.1 데이터 요청 후 정보 파악
+04/06
+
+\*\*\*오늘 안것
+
+1. const func = params=>{
+
+} params로 매개변수를 설정하면
+func({ a,b}) 처럼 객체형식으로 인자를 전달해야한다.
+
+오늘 한 것
+
+1. css 디자인
+
+2. addSearch 마지막 렌더링된 값 남아잇는것 해결하기
+   => this.getDataAfterLoad();의 위치를 변경하는 것으로 해결
+   => 마지막 레벨3의 버튼이 클릭되면, setState전에 type = Wide로 변경해줘야한다. [O]
+
+3. page를 새로 생성하면 이걸 저장했다가 다시 불러오는 것.
+   => 해당 좌표만 있으면 계속 생성할 수 있지 않을까?!! [O]
+   => 페이지를 생성할때, 사용된 locationData를 로컬스토리지에 저장해놓자. [O]
+   => 그것보다 어떻게 page들을 관리할까!?
+   page라는 배열을 생성해놓고 생성된 page들을 그 page에 push?하는건어떨까
+   => 그러면 생성시에는 push [O]
+   => 삭제시에는 해당되는 페이지의 index를 찾아서 삭제. \*\*\*
+   => localStorage pageData 에 page의 index도 저장하자 = X
+   => 새로 추가할때 addressString을 찾아서 중복을 방지해보자\*\*\*
+
+4. 새 페이지를 생성할때 클릭해서 얻은 도시이름을 전달할까?
+   구글 지도api를 통해 지역이름을 구하니 오차가 심하다. [o]
+
+5. Page.js loadData() 생성 -> isAddress에 따라 동작
+   => 첫 페이지가 생성될때 작동한다. addNewPage로 생성되는 다른 페이지들은
+   addressString을 전달받으므로 작동안함
+6. locationString -> addressString으로 변수명 변경
+
+7. App의 getPosition을 Page에서 동작하도록
+   => 첫 페이지를 불러올때 null값을 인자로 전달해서
+   page의 init 내에서 getPosition을 하도록
+
+8. 첫 페이지는 ls에 저장 X
+
+9. page.js에 this.\$pages 생성해서 페이지들을 모두관리.
+   => 추가되는 페이지 계쏙 추가 이뮤터블방식
+
+10. addrSearch에서 마지막 버튼 클릭시 addressString을 전달하도록
+
+11. addrSearch 마지막 값 문제 해결
+
+\*\*\*내일 할 것
+
+1. 로딩화면 하나 더 추가
+
+2. 도시 이름들 데이터를 저장해놓고 상위 버튼을 클릭하면 해당 데이터를 불러오기.
+   => previousData = ?
+
+3. 새 page추가할때, 중복 방지해보기 ls에서 addressString을 참조해보자
+
+4. css 디자인
+
+5. 새로고침 , 공유하기
+
+6. 아이콘, 인삿말,
+
+문제점
+
+1. localStorage에 저장된 page를 불러올때 로딩화면이 끝나고 생성된다
+   => 어차피 한화면에 한페이지씩만 보여지므로 상관없나?!
+
+///////
+
+---
 
 참고할 자료 :
 
@@ -635,7 +704,7 @@ vilData : []
 
 4. CORS?! 문제 해결하긴함 : https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors
 
-5. 가장 가까운 시간 구하기.
+5. 가장 가까운 시간 구하기. [O]
 
 6. 컴포넌트 파일들을 어떻게 구별하는지 및 파일들을 어떻게 정리?! 하는지
 

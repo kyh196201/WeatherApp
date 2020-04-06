@@ -118,5 +118,38 @@ function loading(isLoading) {
     loader.classList.remove("active");
   }
 }
+const loadFromLocalStorage = key => {
+  const data = localStorage.getItem(key);
+  return JSON.parse(data);
+};
 
-export { addEvent, setBase, groupBy, getPosition, loading };
+const storeToLocalStorage = params => {
+  const pageData = loadFromLocalStorage("pageData");
+  if (pageData === null) {
+    const newData = new Array();
+    newData.push({
+      locationData: params.locationData,
+      addressString: params.addressString
+    });
+    localStorage.setItem("pageData", JSON.stringify(newData));
+  } else {
+    const newData = [
+      ...pageData,
+      {
+        locationData: params.locationData,
+        addressString: params.addressString
+      }
+    ];
+    localStorage.setItem("pageData", JSON.stringify(newData));
+  }
+};
+
+export {
+  addEvent,
+  setBase,
+  groupBy,
+  getPosition,
+  loading,
+  storeToLocalStorage,
+  loadFromLocalStorage
+};

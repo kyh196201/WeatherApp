@@ -1,46 +1,64 @@
 import Page from "./Page.js";
 import AddrSearch from "./AddrSearch.js";
-import { getPosition } from "../utils/Services/functions.js";
+import {
+  loadFromLocalStorage,
+  storeToLocalStorage
+} from "../utils/Services/functions.js";
 import dfs_xy_conv from "../utils/Services/gridLatLon.js";
 
 function App({ $target }) {
   this.$target = null;
-  this.locationData = null;
+  this.$pages = [];
 
   const init = async () => {
     this.$target = $target;
-    const latlng = await getPosition(null);
-    this.locationData = dfs_xy_conv("toXY", latlng.latitude, latlng.longitude);
-    console.log(this.locationData);
+    this.pageData = loadFromLocalStorage("pageData");
+    console.log(this.pageData);
 
     const $pageContainer = document.createElement("div");
     this.$pageContainer = $pageContainer;
     this.$pageContainer.className = "Page-Container";
 
-    this.$addrSearch = new AddrSearch({
-      $target: this.$pageContainer,
-      onClick: addNewPage
-    });
+    this.$target.appendChild(this.$pageContainer);
 
-    //Put Components into $container
-    this.$page = new Page({
+    //first Page
+    const firstPage = new Page({
       $target: this.$pageContainer,
       index: this.$pageContainer.childNodes.length,
-      locationData: this.locationData
+      locationData: null,
+      addressString: null
     });
+    this.$pages = [...this.$pages, firstPage];
 
-    this.$target.appendChild(this.$pageContainer);
+    //data load from ls and create another pages
+    if (this.pageData !== null) {
+      this.pageData.forEach(data => {
+        this.addNewPage({
+          locationData: data.locationData,
+          addressString: data.addressString
+        });
+      });
+    }
+
+    this.$addrSearch = new AddrSearch({
+      $target: this.$target,
+      onClick: this.addNewPage
+    });
   };
 
-  init();
-
-  const addNewPage = ({ locationData }) => {
+  this.addNewPage = ({ locationData, addressString }) => {
+    storeToLocalStorage({ locationData, addressString });
     const newPage = new Page({
       $target: this.$pageContainer,
       index: this.$pageContainer.childNodes.length,
-      locationData
+      locationData,
+      addressString
     });
+    this.$pages = [...this.$pages, newPage];
   };
+
+  init();
+  console.log("App is Start");
 }
 
 export default App;

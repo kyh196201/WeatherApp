@@ -11,6 +11,7 @@ class AddrSearch {
     this.TYPE = TYPESLIST.w;
     this.WIDE_CODE = "";
     this.CITY_CODE = "";
+    this.address = [];
 
     const $AddrSearch = document.createElement("div");
     this.$AddrSearch = $AddrSearch;
@@ -53,8 +54,10 @@ class AddrSearch {
         return;
       }
       const target = e.target;
-      const level = e.target.dataset.level;
-      const code = e.target.dataset.code;
+      const level = target.dataset.level;
+      const code = target.dataset.code;
+      const name = target.dataset.name;
+
       if (target.dataset.goto) {
         const GOTO = target.dataset.goto;
         this.TYPE = GOTO;
@@ -64,33 +67,40 @@ class AddrSearch {
         } else {
           this.CITY_CODE = "";
         }
+        this.getDataAfterLoad();
       } else {
         switch (level) {
           case "1":
+            this.address = [...this.address, name];
             this.TYPE = TYPESLIST.c;
             this.WIDE_CODE = code;
+            this.getDataAfterLoad();
             break;
           case "2":
+            this.address = [...this.address, name];
             this.TYPE = TYPESLIST.d;
             this.CITY_CODE = code;
+            this.getDataAfterLoad();
             break;
           case "3":
+            this.address = [...this.address, name];
+            const addressString = this.address.join(" ");
             const locationData = {
               x: target.dataset.x,
               y: target.dataset.y,
               lat: target.dataset.lat,
               lng: target.dataset.lng
             };
-            console.log(locationData);
             this.$AddrSearch.classList.remove("active");
+            this.onClick({ locationData, addressString });
+            this.TYPE = TYPESLIST.w; //상위 버튼 남아있는 것을 없애기 위해
             this.setState(this.initialData);
-            this.onClick({ locationData });
+            this.address = [];
             break;
           default:
             break;
         }
       }
-      this.getDataAfterLoad();
     });
   }
 

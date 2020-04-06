@@ -4,10 +4,10 @@ import { CLOCK_MODE } from "../../utils/Services/constants.js";
 import ByTimeWeather from "./ByTimeWeather.js";
 
 class MainWeather {
-  constructor({ $target, data, locationString }) {
+  constructor({ $target, data, addressString }) {
     this.$target = $target;
     this.data = data;
-    this.locationString = locationString;
+    this.addressString = addressString;
     const classTitle = "MainWeather"; //상수화
 
     const $wrapper = document.createElement("section");
@@ -41,17 +41,17 @@ class MainWeather {
       $target: this.$section,
       data: null
     });
-    this.$locationInfo.innerHTML = this.locationString;
+    this.$locationInfo.innerHTML = this.addressString;
   }
 
   setState = ({ newData }) => {
     this.data = newData;
-    this.locationString = newData.locationString;
+    this.addressString = newData.addressString;
     this.render();
   };
 
   render = () => {
-    this.$locationInfo.innerHTML = this.locationString;
+    this.$locationInfo.innerHTML = this.addressString;
     //하위 컴포넌트들의 setState()호출
     this.$byTimeWeather.setState({ newData: this.data.byTimeData });
   };
