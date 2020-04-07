@@ -4,7 +4,7 @@ import dfs_xy_conv from "../utils/Services/gridLatLon.js";
 import {
   getNowWeather,
   getVilWeather,
-  displayLocation
+  displayLocation,
 } from "../utils/Services/api.js";
 import { FILTERING } from "../utils/Services/constants.js";
 import {
@@ -14,7 +14,7 @@ import {
   loading,
   addEvent,
   storeToLocalStorage,
-  loadFromLocalStorage
+  loadFromLocalStorage,
 } from "../utils/Services/functions.js";
 
 class Page {
@@ -40,13 +40,14 @@ class Page {
     this.$currentWeather = new CurrentWeather({
       $target: this.$page,
       data: {},
-      addressString: this.addressString
+      addressString: this.addressString,
+      onReload: this.reloadData,
     });
 
     this.$mainWeather = new MainWeather({
       $target: this.$page,
       data: null,
-      addressString: this.addressString
+      addressString: this.addressString,
     });
 
     this.init();
@@ -57,19 +58,26 @@ class Page {
       newData: {
         nowData: this.data.nowData,
         vilData: this.data.vilData,
-        addressString: this.data.addressString
-      }
+        addressString: this.data.addressString,
+      },
     });
     this.$mainWeather.setState({
       newData: {
         byTimeData: this.data.byTimeData,
         weeklyData: null,
-        addressString: this.data.addressString
-      }
+        addressString: this.data.addressString,
+      },
     });
   };
 
-  setState = ({ newData }) => {
+  setState = ({ loadedData }) => {
+    const newData = {
+      nowData: loadedData[0],
+      vilData: loadedData[1],
+      byTimeData: loadedData[2],
+      addressString: this.addressString || loadedData[3],
+    };
+    console.log(newData);
     this.data = newData;
     this.render();
   };
@@ -89,18 +97,11 @@ class Page {
         );
       }
 
-      const finalResult = await this.loadData({
-        isAddress: this.addressString.length !== 0
+      const loadedData = await this.loadData({
+        isAddress: this.addressString.length !== 0,
       });
 
-      const newData = {
-        nowData: finalResult[0],
-        vilData: finalResult[1],
-        byTimeData: finalResult[2],
-        addressString: this.addressString || finalResult[3]
-      };
-      console.log(newData);
-      this.setState({ newData });
+      this.setState({ loadedData });
       loading(false);
     } catch (e) {
       console.dir(e);
@@ -116,16 +117,16 @@ class Page {
           let newData = [];
           const nowWeatherData = await getNowWeather({
             x: this.locationData.x,
-            y: this.locationData.y
+            y: this.locationData.y,
           });
           nowWeatherData.response.body.items.item
-            .filter(data => FILTERING.CURRENT.includes(data.category))
-            .forEach(el => {
+            .filter((data) => FILTERING.CURRENT.includes(data.category))
+            .forEach((el) => {
               newData.push({
                 category: el.category,
                 fcstDate: el.fcstDate,
                 fcstTime: el.fcstTime,
-                fcstValue: el.fcstValue
+                fcstValue: el.fcstValue,
               });
             });
           return newData;
@@ -135,16 +136,16 @@ class Page {
           const vilWeatherData = await getVilWeather({
             x: this.locationData.x,
             y: this.locationData.y,
-            isInit: true
+            isInit: true,
           });
           vilWeatherData.response.body.items.item
-            .filter(data => FILTERING.VILAGE.includes(data.category))
-            .forEach(el => {
+            .filter((data) => FILTERING.VILAGE.includes(data.category))
+            .forEach((el) => {
               newData.push({
                 category: el.category,
                 fcstDate: el.fcstDate,
                 fcstTime: el.fcstTime,
-                fcstValue: el.fcstValue
+                fcstValue: el.fcstValue,
               });
             });
           return newData;
@@ -153,17 +154,17 @@ class Page {
           const byTimeData = await getVilWeather({
             x: this.locationData.x,
             y: this.locationData.y,
-            isInit: false
+            isInit: false,
           });
           const groupedByDate = groupBy(
             byTimeData.response.body.items.item,
             "fcstDate"
           );
-          const groupedByTime = Object.values(groupedByDate).map(el => {
+          const groupedByTime = Object.values(groupedByDate).map((el) => {
             return Object.values(groupBy(el, "fcstTime"));
           });
           return groupedByTime;
-        })()
+        })(),
       ]);
     } else {
       return await Promise.all([
@@ -171,16 +172,16 @@ class Page {
           let newData = [];
           const nowWeatherData = await getNowWeather({
             x: this.locationData.x,
-            y: this.locationData.y
+            y: this.locationData.y,
           });
           nowWeatherData.response.body.items.item
-            .filter(data => FILTERING.CURRENT.includes(data.category))
-            .forEach(el => {
+            .filter((data) => FILTERING.CURRENT.includes(data.category))
+            .forEach((el) => {
               newData.push({
                 category: el.category,
                 fcstDate: el.fcstDate,
                 fcstTime: el.fcstTime,
-                fcstValue: el.fcstValue
+                fcstValue: el.fcstValue,
               });
             });
           return newData;
@@ -190,16 +191,16 @@ class Page {
           const vilWeatherData = await getVilWeather({
             x: this.locationData.x,
             y: this.locationData.y,
-            isInit: true
+            isInit: true,
           });
           vilWeatherData.response.body.items.item
-            .filter(data => FILTERING.VILAGE.includes(data.category))
-            .forEach(el => {
+            .filter((data) => FILTERING.VILAGE.includes(data.category))
+            .forEach((el) => {
               newData.push({
                 category: el.category,
                 fcstDate: el.fcstDate,
                 fcstTime: el.fcstTime,
-                fcstValue: el.fcstValue
+                fcstValue: el.fcstValue,
               });
             });
           return newData;
@@ -208,13 +209,13 @@ class Page {
           const byTimeData = await getVilWeather({
             x: this.locationData.x,
             y: this.locationData.y,
-            isInit: false
+            isInit: false,
           });
           const groupedByDate = groupBy(
             byTimeData.response.body.items.item,
             "fcstDate"
           );
-          const groupedByTime = Object.values(groupedByDate).map(el => {
+          const groupedByTime = Object.values(groupedByDate).map((el) => {
             return Object.values(groupBy(el, "fcstTime"));
           });
           return groupedByTime;
@@ -222,16 +223,34 @@ class Page {
         (async () => {
           const location = await displayLocation({
             lat: this.locationData.lat,
-            lng: this.locationData.lng
+            lng: this.locationData.lng,
           });
           return location.results
-            .filter(item => {
+            .filter((item) => {
               return item.types.includes("postal_code");
             })[0]
             .formatted_address.substring(5);
-        })()
+        })(),
       ]);
     }
+  }; //End loadData()
+
+  reloadData = async (index) => {
+    loading(true);
+    if (index === 0) {
+      const latlng = await getPosition(null);
+      this.locationData = dfs_xy_conv(
+        "toXY",
+        latlng.latitude,
+        latlng.longitude
+      );
+      this.addressString = "";
+    }
+    const loadedData = await this.loadData({
+      isAddress: this.addressString.length !== 0,
+    });
+    this.setState({ loadedData });
+    loading(false);
   };
 }
 

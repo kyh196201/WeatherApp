@@ -25,12 +25,15 @@ class ByTimeWeather {
     for (let i = 0; i < this.data.length; i++) {
       const _length = this.data[i].length;
       for (let j = 0; j < _length; j++) {
+        const timeString = this.data[i][j][0].fcstTime.substr(0, 2);
         const liString = `
-        <li>${this.data[i][j][0].fcstTime.substr(0, 2)}시</li>
-        <li>${this.data[i][j].find(it => it.category === "SKY").fcstValue}</li>
-      <li>${this.data[i][j].find(it => it.category === "POP").fcstValue}%</li>
+        <li>${parseInt(timeString)}시</li>
+        <li>${
+          this.data[i][j].find((it) => it.category === "SKY").fcstValue
+        }</li>
+      <li>${this.data[i][j].find((it) => it.category === "POP").fcstValue}%</li>
       <li>${
-        this.data[i][j].find(it => it.category === "T3H").fcstValue
+        this.data[i][j].find((it) => it.category === "T3H").fcstValue
       }도</li>`;
         contString = contString + `<ul>${liString}</ul>`;
       }

@@ -1,6 +1,11 @@
 import { getCity } from "../utils/Services/api.js";
 import { TYPESLIST } from "../utils/Services/constants.js";
-import { addEvent, loading } from "../utils/Services/functions.js";
+import {
+  addEvent,
+  loading,
+  loadFromLocalStorage,
+  storeToLocalStorage
+} from "../utils/Services/functions.js";
 
 class AddrSearch {
   constructor({ $target, onClick }) {
@@ -91,8 +96,20 @@ class AddrSearch {
               lat: target.dataset.lat,
               lng: target.dataset.lng
             };
+            const pageIndex = this.findInLocalStorage(addressString);
+            if (isNaN(pageIndex)) {
+              const index = document.getElementById("Page-Wrapper").childNodes
+                .length;
+              console.log(index);
+              storeToLocalStorage({ locationData, addressString, index });
+              this.onClick({ locationData, addressString });
+            } else {
+              //화면 해당 페이지로 전환
+              const id = `page${pageIndex}`;
+              document.getElementById(id).style.backgroundColor = "red";
+              alert("해당 도시에 대한 페이지가 이미 존재합니다.");
+            }
             this.$AddrSearch.classList.remove("active");
-            this.onClick({ locationData, addressString });
             this.TYPE = TYPESLIST.w; //상위 버튼 남아있는 것을 없애기 위해
             this.setState(this.initialData);
             this.address = [];
@@ -137,6 +154,20 @@ class AddrSearch {
       wideCode: this.WIDE_CODE,
       cityCode: this.CITY_CODE
     });
+  };
+
+  findInLocalStorage = addressString => {
+    const pageData = loadFromLocalStorage("pageData");
+
+    if (pageData === null) {
+      return NaN;
+    }
+
+    const foundData = pageData.filter(e => e.addressString === addressString);
+    if (foundData.length === 1) {
+      return foundData[0].index;
+    }
+    return NaN;
   };
 }
 

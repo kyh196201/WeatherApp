@@ -5,11 +5,12 @@ import TimeStamp from "../../utils/Services/TimeStamp.js";
 import { CLOCK_MODE } from "../../utils/Services/constants.js";
 
 class CurrentWeather {
-  constructor({ $target, data, addressString }) {
+  constructor({ $target, data, addressString, onReload }) {
     //$target = page
     this.$target = $target;
     this.data = data;
     this.addressString = addressString;
+    this.onReload = onReload;
 
     //섹션 컴포넌트 생성
     const $wrapper = document.createElement("section");
@@ -119,9 +120,9 @@ class CurrentWeather {
 
   bindEvents = () => {
     addEvent("click", this.$reloadBtn, e => {
-      console.log("reload");
-      //새로고침 버튼도 Page의 인덱스가 0일경우에는 좌표부터 다시불러와야하고,
-      //다른 페이지일 경우 데이터만 새로 불러온다.
+      console.log("Reload Data");
+      const index = this.$target.dataset.index;
+      this.onReload(index);
     });
 
     addEvent("click", this.$shareBtn, e => {

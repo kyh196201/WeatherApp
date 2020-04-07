@@ -16,6 +16,7 @@ class Section {
     const $currentInfo = document.createElement("li");
     $currentInfo.className = "CurrentWeather__info";
     this.$currentInfo = $currentInfo;
+    this.$currentInfo.innerHTML = "로드중입니다...";
 
     const $currentGreet = document.createElement("li");
     $currentGreet.className = "CurrentWeather__greet";

@@ -1,16 +1,13 @@
 @import "./reset.css";
 @import "./loader.css";
-
+@import "./page.css";
 *,
 *:before,
 *:after {
   box-sizing: border-box;
 }
 
-html,
-body {
-  margin: 0;
-}
+/* For Mobile */
 
 .byTimeWeather__field {
   display: flex;
@@ -29,6 +26,7 @@ body {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.3s linear, opacity 0.3s linear;
+  overflow-y: scroll;
 }
 
 .AddrSearch.active {

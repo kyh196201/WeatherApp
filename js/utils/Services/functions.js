@@ -12,11 +12,11 @@ function addEvent(evnt, $elem, func) {
 }
 
 //래퍼런스 : https://kkiuk.tistory.com/212
-const getPosition = options => {
-  return new Promise(function(resolve, reject) {
+const getPosition = (options) => {
+  return new Promise(function (resolve, reject) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        pos => {
+        (pos) => {
           resolve(pos.coords);
         },
         () => {
@@ -91,13 +91,13 @@ function setBase({ mode, date }) {
 
   const result = {
     baseDate,
-    baseTime
+    baseTime,
   };
   return result;
 }
 
 function groupBy(objectArray, property) {
-  return objectArray.reduce(function(acc, obj) {
+  return objectArray.reduce(function (acc, obj) {
     var key = obj[property];
     //정렬이 안된 원인 0900 = string, 1200 = int 타입이라서 문제 발생
     const parsedKey = parseInt(key);
@@ -118,18 +118,19 @@ function loading(isLoading) {
     loader.classList.remove("active");
   }
 }
-const loadFromLocalStorage = key => {
+const loadFromLocalStorage = (key) => {
   const data = localStorage.getItem(key);
   return JSON.parse(data);
 };
 
-const storeToLocalStorage = params => {
+const storeToLocalStorage = (params) => {
   const pageData = loadFromLocalStorage("pageData");
   if (pageData === null) {
     const newData = new Array();
     newData.push({
       locationData: params.locationData,
-      addressString: params.addressString
+      addressString: params.addressString,
+      index: params.index,
     });
     localStorage.setItem("pageData", JSON.stringify(newData));
   } else {
@@ -137,8 +138,9 @@ const storeToLocalStorage = params => {
       ...pageData,
       {
         locationData: params.locationData,
-        addressString: params.addressString
-      }
+        addressString: params.addressString,
+        index: params.index,
+      },
     ];
     localStorage.setItem("pageData", JSON.stringify(newData));
   }
@@ -151,5 +153,5 @@ export {
   getPosition,
   loading,
   storeToLocalStorage,
-  loadFromLocalStorage
+  loadFromLocalStorage,
 };
