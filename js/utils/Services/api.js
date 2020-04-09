@@ -4,7 +4,11 @@ const CORS = "https://cors-anywhere.herokuapp.com";
 const END_POINT = "http://apis.data.go.kr/1360000";
 const SERVICE = {
   VILAGE: "VilageFcstInfoService",
+<<<<<<< HEAD
   MID: "MidFcstInfoService",
+=======
+  MID: "MidFcstInfoService"
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
 };
 const API_KEY =
   "FrXPuaL0ls5tHLK%2F2oPRuCoxI6cYNM93hPWcE6Ta0%2B4gZ6BNNCbirWsBEpoJd6tCieQmHFMdYco1fAxaVe0nyg%3D%3D";
@@ -14,7 +18,11 @@ const G_API_KEY = "AIzaSyAXE7WzKYeqyDL5V78FdrnriYQ7ukR04Bw";
 //초단기실황 api
 //입력받을 데이터, baseDate, baseTime, 좌표
 
+<<<<<<< HEAD
 const getNowWeather = async (params) => {
+=======
+const getNowWeather = async params => {
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
   //Date를 통해 basetime, basedate계산
   const date = new Date();
   const mode = "current";
@@ -54,7 +62,11 @@ const getNowWeather = async (params) => {
 
 //동네예보 API
 //데이터의 개수 및 baseTime을 조정
+<<<<<<< HEAD
 const getVilWeather = async (params) => {
+=======
+const getVilWeather = async params => {
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
   let baseData = null;
   let NUMOFROWS = 0;
 
@@ -76,7 +88,11 @@ const getVilWeather = async (params) => {
       baseDate: `${year}${month < 10 ? `0${month}` : month}${
         todayDate < 10 ? `0${todayDate}` : todayDate
       }`,
+<<<<<<< HEAD
       baseTime: "0200",
+=======
+      baseTime: "0200"
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
     };
   } else {
     const mode = "vilage";
@@ -115,9 +131,15 @@ const getVilWeather = async (params) => {
   }
 };
 
+<<<<<<< HEAD
 const displayLocation = (params) => {
   const URL = `${CORS}/https://maps.googleapis.com/maps/api/geocode/json?latlng=${params.lat},${params.lng}&sensor=true&key=AIzaSyAXE7WzKYeqyDL5V78FdrnriYQ7ukR04Bw`;
   return fetch(URL).then((res) => {
+=======
+const displayLocation = params => {
+  const URL = `${CORS}/https://maps.googleapis.com/maps/api/geocode/json?latlng=${params.lat},${params.lng}&sensor=true&key=AIzaSyAXE7WzKYeqyDL5V78FdrnriYQ7ukR04Bw`;
+  return fetch(URL).then(res => {
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
     if (res.ok) {
       return res.json();
     } else {
@@ -128,7 +150,11 @@ const displayLocation = (params) => {
 
 const getCity = ({ type, wideCode, cityCode }) => {
   const URL = `${CORS}/https://www.weather.go.kr/w/rest/zone/dong.do?type=${type}&wideCode=${wideCode}&cityCode=${cityCode}`;
+<<<<<<< HEAD
   return fetch(URL).then((res) => {
+=======
+  return fetch(URL).then(res => {
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
     if (res.ok) {
       return res.json();
     } else {

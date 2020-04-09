@@ -20,6 +20,7 @@
  *    "Font Awesome by Dave Gandy - http://fontawesome.io"
  */
 @font-face {
+<<<<<<< HEAD
   font-family: "weathericons";
   src: url("../font/weathericons-regular-webfont.eot");
   src: url("../font/weathericons-regular-webfont.eot?#iefix")
@@ -29,12 +30,21 @@
     url("../font/weathericons-regular-webfont.ttf") format("truetype"),
     url("../font/weathericons-regular-webfont.svg#weather_iconsregular")
       format("svg");
+=======
+  font-family: 'weathericons';
+  src: url('../font/weathericons-regular-webfont.eot');
+  src: url('../font/weathericons-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../font/weathericons-regular-webfont.woff2') format('woff2'), url('../font/weathericons-regular-webfont.woff') format('woff'), url('../font/weathericons-regular-webfont.ttf') format('truetype'), url('../font/weathericons-regular-webfont.svg#weather_iconsregular') format('svg');
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
   font-weight: normal;
   font-style: normal;
 }
 .wi {
   display: inline-block;
+<<<<<<< HEAD
   font-family: "weathericons";
+=======
+  font-family: 'weathericons';
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
   font-style: normal;
   font-weight: normal;
   line-height: 1;

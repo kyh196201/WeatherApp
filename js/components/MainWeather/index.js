@@ -39,7 +39,11 @@ class MainWeather {
     new TimeStamp({ $target: this.$timeStamp, mode: CLOCK_MODE.MAIN });
     this.$byTimeWeather = new ByTimeWeather({
       $target: this.$section,
+<<<<<<< HEAD
       data: null,
+=======
+      data: null
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
     });
     this.$locationInfo.innerHTML = this.addressString;
   }

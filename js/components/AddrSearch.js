@@ -4,7 +4,11 @@ import {
   addEvent,
   loading,
   loadFromLocalStorage,
+<<<<<<< HEAD
   storeToLocalStorage,
+=======
+  storeToLocalStorage
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
 } from "../utils/Services/functions.js";
 
 class AddrSearch {
@@ -42,7 +46,11 @@ class AddrSearch {
     this.$target.appendChild(this.$AddrSearch);
 
     try {
+<<<<<<< HEAD
       this.getData().then((data) => {
+=======
+      this.getData().then(data => {
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
         this.initialData = data;
         this.setState(data);
       });
@@ -50,11 +58,19 @@ class AddrSearch {
       console.error(e);
     }
 
+<<<<<<< HEAD
     addEvent("click", this.$closeBtn, (e) => {
       this.$AddrSearch.classList.remove("active");
     });
 
     this.$ul.addEventListener("click", (e) => {
+=======
+    addEvent("click", this.$closeBtn, e => {
+      this.$AddrSearch.classList.remove("active");
+    });
+
+    this.$ul.addEventListener("click", e => {
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
       if (e.target.nodeName !== "BUTTON") {
         return;
       }
@@ -94,7 +110,11 @@ class AddrSearch {
               x: target.dataset.x,
               y: target.dataset.y,
               lat: target.dataset.lat,
+<<<<<<< HEAD
               lng: target.dataset.lng,
+=======
+              lng: target.dataset.lng
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
             };
             const pageIndex = this.findInLocalStorage(addressString);
             if (isNaN(pageIndex)) {
@@ -129,14 +149,22 @@ class AddrSearch {
       upperString = `<li class="addr-item"><button class="addr-button" data-goto=${TYPESLIST.c}>상위</button></li>`;
     }
     const htmlString = this.data
+<<<<<<< HEAD
       .map((item) => {
+=======
+      .map(item => {
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
         return `<li class="addr-item"><button class="addr-button" data-code=${item.code} data-level=${item.level} data-x=${item.x} data-y=${item.y} data-lat=${item.lat} data-lng=${item.lon} data-name=${item.name}>${item.name}</button></li>`;
       })
       .join("");
     this.$ul.innerHTML = upperString + htmlString;
   };
 
+<<<<<<< HEAD
   setState = (newData) => {
+=======
+  setState = newData => {
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
     this.data = newData;
     this.render();
   };
@@ -152,18 +180,30 @@ class AddrSearch {
     return await getCity({
       type: this.TYPE,
       wideCode: this.WIDE_CODE,
+<<<<<<< HEAD
       cityCode: this.CITY_CODE,
     });
   };
 
   findInLocalStorage = (addressString) => {
+=======
+      cityCode: this.CITY_CODE
+    });
+  };
+
+  findInLocalStorage = addressString => {
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
     const pageData = loadFromLocalStorage("pageData");
 
     if (pageData === null) {
       return NaN;
     }
 
+<<<<<<< HEAD
     const foundData = pageData.filter((e) => e.addressString === addressString);
+=======
+    const foundData = pageData.filter(e => e.addressString === addressString);
+>>>>>>> 6e439a4c96e33a2758628ea784640b09a059f3a6
     if (foundData.length === 1) {
       return foundData[0].index;
     }
