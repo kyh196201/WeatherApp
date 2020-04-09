@@ -1,0 +1,40 @@
+@import "./reset.css";
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sunflower:wght@300;500;700&display=swap");
+@import "./loader.css";
+@import "./page.css";
+@import "./CurrentWeather.css";
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+/* For Mobile */
+
+.byTimeWeather__field {
+  display: flex;
+}
+
+/*임시 addrSearch*/
+
+.AddrSearch {
+  border: 3px solid red;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background: #678ec7;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s linear, opacity 0.3s linear;
+  overflow-y: scroll;
+}
+
+.AddrSearch.active {
+  visibility: visible;
+  opacity: 1;
+  z-index: 100;
+}
