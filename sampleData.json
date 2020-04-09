@@ -1,0 +1,368 @@
+[
+  {
+    "category": "POP",
+    "fcstDate": "20200327",
+    "fcstTime": "0600",
+    "fcstValue": "80"
+  },
+  {
+    "category": "R06",
+    "fcstDate": "20200327",
+    "fcstTime": "0600",
+    "fcstValue": "15"
+  },
+  {
+    "category": "S06",
+    "fcstDate": "20200327",
+    "fcstTime": "0600",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200327",
+    "fcstTime": "0600",
+    "fcstValue": "4"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200327",
+    "fcstTime": "0600",
+    "fcstValue": "14"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200327",
+    "fcstTime": "0900",
+    "fcstValue": "60"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200327",
+    "fcstTime": "0900",
+    "fcstValue": "4"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200327",
+    "fcstTime": "0900",
+    "fcstValue": "13"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200327",
+    "fcstTime": "1200",
+    "fcstValue": "20"
+  },
+  {
+    "category": "R06",
+    "fcstDate": "20200327",
+    "fcstTime": "1200",
+    "fcstValue": "2"
+  },
+  {
+    "category": "S06",
+    "fcstDate": "20200327",
+    "fcstTime": "1200",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200327",
+    "fcstTime": "1200",
+    "fcstValue": "3"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200327",
+    "fcstTime": "1200",
+    "fcstValue": "15"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200327",
+    "fcstTime": "1500",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200327",
+    "fcstTime": "1500",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200327",
+    "fcstTime": "1500",
+    "fcstValue": "17"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200327",
+    "fcstTime": "1800",
+    "fcstValue": "0"
+  },
+  {
+    "category": "R06",
+    "fcstDate": "20200327",
+    "fcstTime": "1800",
+    "fcstValue": "0"
+  },
+  {
+    "category": "S06",
+    "fcstDate": "20200327",
+    "fcstTime": "1800",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200327",
+    "fcstTime": "1800",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200327",
+    "fcstTime": "1800",
+    "fcstValue": "15"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200327",
+    "fcstTime": "2100",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200327",
+    "fcstTime": "2100",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200327",
+    "fcstTime": "2100",
+    "fcstValue": "11"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200328",
+    "fcstTime": "0000",
+    "fcstValue": "20"
+  },
+  {
+    "category": "R06",
+    "fcstDate": "20200328",
+    "fcstTime": "0000",
+    "fcstValue": "0"
+  },
+  {
+    "category": "S06",
+    "fcstDate": "20200328",
+    "fcstTime": "0000",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200328",
+    "fcstTime": "0000",
+    "fcstValue": "3"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200328",
+    "fcstTime": "0000",
+    "fcstValue": "8"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200328",
+    "fcstTime": "0300",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200328",
+    "fcstTime": "0300",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200328",
+    "fcstTime": "0300",
+    "fcstValue": "6"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200328",
+    "fcstTime": "0600",
+    "fcstValue": "0"
+  },
+  {
+    "category": "R06",
+    "fcstDate": "20200328",
+    "fcstTime": "0600",
+    "fcstValue": "0"
+  },
+  {
+    "category": "S06",
+    "fcstDate": "20200328",
+    "fcstTime": "0600",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200328",
+    "fcstTime": "0600",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200328",
+    "fcstTime": "0600",
+    "fcstValue": "5"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200328",
+    "fcstTime": "0900",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200328",
+    "fcstTime": "0900",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200328",
+    "fcstTime": "0900",
+    "fcstValue": "8"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200328",
+    "fcstTime": "1200",
+    "fcstValue": "0"
+  },
+  {
+    "category": "R06",
+    "fcstDate": "20200328",
+    "fcstTime": "1200",
+    "fcstValue": "0"
+  },
+  {
+    "category": "S06",
+    "fcstDate": "20200328",
+    "fcstTime": "1200",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200328",
+    "fcstTime": "1200",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200328",
+    "fcstTime": "1200",
+    "fcstValue": "12"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200328",
+    "fcstTime": "1500",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200328",
+    "fcstTime": "1500",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200328",
+    "fcstTime": "1500",
+    "fcstValue": "14"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200328",
+    "fcstTime": "1800",
+    "fcstValue": "0"
+  },
+  {
+    "category": "R06",
+    "fcstDate": "20200328",
+    "fcstTime": "1800",
+    "fcstValue": "0"
+  },
+  {
+    "category": "S06",
+    "fcstDate": "20200328",
+    "fcstTime": "1800",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200328",
+    "fcstTime": "1800",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200328",
+    "fcstTime": "1800",
+    "fcstValue": "12"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200328",
+    "fcstTime": "2100",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200328",
+    "fcstTime": "2100",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200328",
+    "fcstTime": "2100",
+    "fcstValue": "8"
+  },
+  {
+    "category": "POP",
+    "fcstDate": "20200329",
+    "fcstTime": "0000",
+    "fcstValue": "0"
+  },
+  {
+    "category": "R06",
+    "fcstDate": "20200329",
+    "fcstTime": "0000",
+    "fcstValue": "0"
+  },
+  {
+    "category": "S06",
+    "fcstDate": "20200329",
+    "fcstTime": "0000",
+    "fcstValue": "0"
+  },
+  {
+    "category": "SKY",
+    "fcstDate": "20200329",
+    "fcstTime": "0000",
+    "fcstValue": "1"
+  },
+  {
+    "category": "T3H",
+    "fcstDate": "20200329",
+    "fcstTime": "0000",
+    "fcstValue": "6"
+  }
+]

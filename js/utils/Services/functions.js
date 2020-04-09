@@ -11,6 +11,24 @@ function addEvent(evnt, $elem, func) {
   }
 }
 
+//래퍼런스 : https://kkiuk.tistory.com/212
+const getPosition = (options) => {
+  return new Promise(function (resolve, reject) {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          resolve(pos.coords);
+        },
+        () => {
+          reject(new Error("Request is failed"));
+        }
+      );
+    } else {
+      reject(new Error("Geolocation is not exist"));
+    }
+  });
+};
+
 //날짜 계산 함수
 function setBase({ mode, date }) {
   let baseTime = null;
@@ -24,7 +42,7 @@ function setBase({ mode, date }) {
   let minute = d.getMinutes();
 
   if (mode === "current") {
-    if (minute < 40) {
+    if (minute < 46) {
       hour = hour - 1;
       if (hour < 0) {
         //시간이 0시 일 경우 전날 23시의 데이터를 가져와야한다.
@@ -35,6 +53,7 @@ function setBase({ mode, date }) {
         hour = 23;
       }
     }
+    minute = 30;
   }
   //동네예보 baseTime set
   else if (mode === "vilage") {
@@ -42,7 +61,7 @@ function setBase({ mode, date }) {
       //시간이 2,5,8,중에 하나이지만 10분이 안지났을 경우
       if (minute <= 10) {
         hour = hour - 3;
-        //시간이 2시 일경우 전날 23시의 데이터를 받아와야한다.
+        //시간이 2시 이전 일경우 전날 23시의 데이터를 받아와야한다.
         if (hour < 0) {
           d.setDate(todayDate - 1);
           year = d.getFullYear();
@@ -63,16 +82,76 @@ function setBase({ mode, date }) {
         hour = 23;
       }
     }
+    minute = 0;
   }
   baseDate = `${year}${month < 10 ? `0${month}` : month}${
     todayDate < 10 ? `0${todayDate}` : todayDate
   }`;
   baseTime = `${hour < 10 ? `0${hour}` : hour}00`;
 
-  return {
+  const result = {
     baseDate,
-    baseTime
+    baseTime,
   };
+  return result;
 }
 
-export { addEvent, setBase };
+function groupBy(objectArray, property) {
+  return objectArray.reduce(function (acc, obj) {
+    var key = obj[property];
+    //정렬이 안된 원인 0900 = string, 1200 = int 타입이라서 문제 발생
+    const parsedKey = parseInt(key);
+    if (!acc[parsedKey]) {
+      acc[parsedKey] = [];
+    }
+    // delete obj[property]; //이 함수가 진행될때 마다 해당 property에 해당하는 값을 지운다.
+    acc[parsedKey].push(obj);
+    return acc;
+  }, {});
+}
+
+function loading(isLoading) {
+  const loader = document.getElementById("loader");
+  if (isLoading) {
+    loader.classList.add("active");
+  } else {
+    loader.classList.remove("active");
+  }
+}
+const loadFromLocalStorage = (key) => {
+  const data = localStorage.getItem(key);
+  return JSON.parse(data);
+};
+
+const storeToLocalStorage = (params) => {
+  const pageData = loadFromLocalStorage("pageData");
+  if (pageData === null) {
+    const newData = new Array();
+    newData.push({
+      locationData: params.locationData,
+      addressString: params.addressString,
+      index: params.index,
+    });
+    localStorage.setItem("pageData", JSON.stringify(newData));
+  } else {
+    const newData = [
+      ...pageData,
+      {
+        locationData: params.locationData,
+        addressString: params.addressString,
+        index: params.index,
+      },
+    ];
+    localStorage.setItem("pageData", JSON.stringify(newData));
+  }
+};
+
+export {
+  addEvent,
+  setBase,
+  groupBy,
+  getPosition,
+  loading,
+  storeToLocalStorage,
+  loadFromLocalStorage,
+};

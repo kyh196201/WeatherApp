@@ -1,0 +1,99 @@
+/* Common */
+.CurrentWeather__wrapper {
+  border: 3px solid red;
+  color: white;
+}
+
+.CurrentWeather__header {
+  margin-bottom: 1rem;
+}
+
+.CurrentWeather__header .CurrentWeather__timeStamp {
+  font-size: 0.75rem;
+}
+
+.CurrentWeather__nav {
+  /* display: flex; */
+  margin-bottom: 1rem;
+}
+
+.CurrentWeather__location > i {
+  margin-right: 0.5rem;
+}
+
+.CurrentWeather__nav .CurrentWeather__buttons {
+  cursor: pointer;
+}
+
+.CurrentWeather__nav .CurrentWeather__buttons a {
+  transition: color 0.3 ease;
+}
+
+.CurrentWeather__nav .CurrentWeather__buttons a:hover {
+  color: black;
+}
+
+.CurrentWeather__section > ul > li {
+  float: left;
+  clear: left;
+  height: 3rem;
+  background: white;
+  color: black;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  line-height: 3rem;
+  padding: 0 0.75rem;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .CurrentWeather__wrapper {
+    padding: 0.75rem;
+  }
+  .CurrentWeather__header {
+    margin-bottom: 1rem;
+  }
+  .CurrentWeather__nav {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .CurrentWeather__location {
+    font-size: 1.25rem;
+  }
+  .CurrentWeather__location > i {
+    font-size: 1rem;
+  }
+
+  .CurrentWeather__buttons > a {
+    padding: 0 0.25rem;
+    font-size: 1rem;
+  }
+
+  .CurrentWeather__buttons > a:first-child {
+    padding-left: 0px;
+  }
+
+  .CurrentWeather__buttons > a:last-child {
+    padding-right: 0px;
+  }
+
+  .CurrentWeather__section > ul > li {
+    float: left;
+    clear: left;
+    height: 3rem;
+    background: white;
+    color: black;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    line-height: 3rem;
+    padding: 0 0.75rem;
+  }
+
+  .CurrentWeather__section > ul > li > span {
+    padding: 0 0.25rem;
+  }
+  .CurrentWeather__section > ul > li > span:last-child {
+    margin: 0;
+  }
+}
