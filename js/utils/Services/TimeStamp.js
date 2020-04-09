@@ -24,7 +24,7 @@ class TimeStamp {
       minutes < 10 ? `0${minutes}` : minutes
     }:${seconds} ${AMPM}`;
     if (this.mode === CLOCK_MODE.CURRENT) {
-      dString = dateString + `(${day})` + timeString;
+      dString = dateString + `(${day}) ` + timeString;
     } else if (this.mode === CLOCK_MODE.MAIN) {
       dString = `<div>${dateString}</div><div>${timeString}</div>`;
     }

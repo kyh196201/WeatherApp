@@ -734,6 +734,14 @@ func({ a,b}) 처럼 객체형식으로 인자를 전달해야한다.
 
 1. css width에 관하여
 
+2. javascript call,aply,bind
+
+3. touch & clientX 등등..
+
+4. swiper사용해보기
+
+5. github merge
+
 내일 할것 + 해결할 것
 
 1. slide Error, 새로 페이지 추가할때 에러, resize에러...
@@ -741,6 +749,48 @@ func({ a,b}) 처럼 객체형식으로 인자를 전달해야한다.
 2. 제대로 동작안함 그냥....이거 해결하자
    => 동작은 제대로 되는데 개판이다...
    bind를 사용했고, app.js안에 slide 선언, 그리고 this.index를 선언해서 이것을 통해서 slide가 현재 어디에있는지 확인하려고 함.. 좀더 수정해야할듯...
+
+04/08
+
+오늘 할 것
+
+1. 전체적인 디자인
+
+2.
+
+당장 해결 할 것
+
+1. resize 끝날때만 이벤트 발생하도록 하는 것.
+   => custom event 만드는 것 공부.
+
+2. slide를 컴포넌트화로 바꿔보자..
+   => 반정도 성공,,
+
+3. 왼쪽 최대로 움직일 수 있는 left를 위해 custom 이벤트 발생
+   -> 래퍼런스 https://blog.eunsatio.io/develop/Javascript-dispatchEvent%EB%A1%9C-%EC%9A%94%EC%86%8C-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%B0%9C%EC%83%9D%EC%8B%9C%ED%82%A4%EA%B8%B0 [O]
+
+문제점
+
+1. mobile<-> 데스크탑 계속 변환할때 onresize가 여러번 호출됨
+   => resize가 여러번 걸쳐서 되므로 그때마다 계속 slide() 가 호출되었다.
+   => 따라서 그안에서 addEventListener이 계속 발생해서, items에
+   touch 이벤트가 계속해서 추가되었다.
+   -> 여기서 알게된점. items.onmousedown = function()식으로 변경하면
+   이 문제점을 해결할 수는 있다.
+
+2. mobile에서 touch 가 먹히질 않음.
+   -> touchend 이벤트 추가로 해결했다.
+
+---
+
+오늘 배운 것
+
+1. resize 끝날때 호출하는 것
+
+2. custom event, dispatch Event
+
+3. css 100vw는 스크롤바의 너비 포함인데, 이를 없애고 기능은 그대로 하는 방법
+   ->https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_hide_scrollbar_keep_func
 
 ---
 

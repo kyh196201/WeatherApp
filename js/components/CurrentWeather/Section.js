@@ -1,3 +1,5 @@
+import { SKY_STATE } from "../../utils/Services/constants.js";
+
 class Section {
   constructor({ $target, data }) {
     this.$target = $target;
@@ -30,11 +32,27 @@ class Section {
   }
 
   render = () => {
-    this.$currentInfo.innerHTML = `맑음 : ${this.nowData.SKY.fcstValue}, 현재 온도 : ${this.nowData.T1H.fcstValue}, 최고 : ${this.vilData.TMX.fcstValue}, 최저 : ${this.vilData.TMN.fcstValue}, 습도 : ${this.nowData.REH.fcstValue}`;
+    // this.$currentInfo.innerHTML = `${
+    //   SKY_STATE[this.nowData.SKY.fcstValue].name
+    // }, 현재 온도 : ${this.nowData.T1H.fcstValue}, 최고 : ${
+    //   this.vilData.TMX.fcstValue
+    // }, 최저 : ${this.vilData.TMN.fcstValue}, 습도 : ${
+    //   this.nowData.REH.fcstValue
+    // }`;
     this.$currentGreet.innerHTML = "Greet value will be here";
+
+    const icon = `<span class="Current__icon"></span>`;
+    const skyState = `<span class="Current__skyState">${
+      SKY_STATE[this.nowData.SKY.fcstValue].name
+    }</span>`;
+    const currentTemp = `<span class="Current__currentTemp">${this.nowData.T1H.fcstValue}	&ordm;</span>`;
+    const minMaxTemp = `<span class="Current__minMaxTemp">${this.vilData.TMX.fcstValue}&ordm;/${this.vilData.TMN.fcstValue}&ordm;</span>`;
+    const wet = `<span class="Current__wet">${this.nowData.REH.fcstValue}%</span>`;
+    this.$currentInfo.innerHTML =
+      icon + skyState + currentTemp + minMaxTemp + wet;
   };
 
-  setState = newData => {
+  setState = (newData) => {
     this.nowData = newData.nowData;
     this.vilData = newData.vilData;
     console.log(this.nowData, this.vilData);

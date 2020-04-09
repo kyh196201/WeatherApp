@@ -42,18 +42,18 @@ class CurrentWeather {
     $buttons.className = "CurrentWeather__buttons";
     this.$buttons = $buttons;
 
-    const $reloadBtn = document.createElement("button");
-    $reloadBtn.innerHTML = "새로고침";
+    const $reloadBtn = document.createElement("a");
+    $reloadBtn.innerHTML = `<i class="fas fa-retweet"></i>`;
     $reloadBtn.className = "reloadBtn";
     this.$reloadBtn = $reloadBtn;
 
-    const $shareBtn = document.createElement("button");
-    $shareBtn.innerHTML = "공유하기";
+    const $shareBtn = document.createElement("a");
+    $shareBtn.innerHTML = `<i class="fas fa-share-square"></i>`;
     $shareBtn.className = "shareBtn";
     this.$shareBtn = $shareBtn;
 
-    const $plusBtn = document.createElement("button");
-    $plusBtn.innerHTML = "추가하기";
+    const $plusBtn = document.createElement("a");
+    $plusBtn.innerHTML = `<i class="fas fa-plus"></i>`;
     $plusBtn.className = "plusBtn";
     this.$plusBtn = $plusBtn;
 
@@ -71,7 +71,7 @@ class CurrentWeather {
     //섹션 컴포넌트 생성
     this.$section = new Section({
       $target: this.$wrapper,
-      data: null
+      data: null,
     });
 
     this.$target.appendChild(this.$wrapper);
@@ -85,17 +85,18 @@ class CurrentWeather {
 
   render = () => {
     this.$section.setState(this.data);
-    this.$location.innerHTML = this.addressString;
+    this.$location.innerHTML =
+      `<i class="fas fa-location-arrow"></i>` + this.addressString;
   };
 
   setState = ({ newData }) => {
-    const SKY = newData.nowData.filter(el => el.category === "SKY");
-    const T1H = newData.nowData.filter(el => el.category === "T1H");
-    const REH = newData.nowData.filter(el => el.category === "REH");
-    const RN1 = newData.nowData.filter(el => el.category === "RN1");
+    const SKY = newData.nowData.filter((el) => el.category === "SKY");
+    const T1H = newData.nowData.filter((el) => el.category === "T1H");
+    const REH = newData.nowData.filter((el) => el.category === "REH");
+    const RN1 = newData.nowData.filter((el) => el.category === "RN1");
 
-    const TMX = newData.vilData.filter(el => el.category === "TMX");
-    const TMN = newData.vilData.filter(el => el.category === "TMN");
+    const TMX = newData.vilData.filter((el) => el.category === "TMX");
+    const TMN = newData.vilData.filter((el) => el.category === "TMN");
 
     const d = new Date();
     const todayDate = d.getDate();
@@ -105,13 +106,13 @@ class CurrentWeather {
       SKY: SKY[0],
       T1H: T1H[0],
       REH: REH[0],
-      RN1: RN1[0]
+      RN1: RN1[0],
     };
 
     if (!this.data.vilData || todayDate === dateEnd) {
       this.data["vilData"] = {
         TMX: TMX[0],
-        TMN: TMN[0]
+        TMN: TMN[0],
       };
     }
     this.addressString = newData.addressString;
@@ -119,17 +120,24 @@ class CurrentWeather {
   };
 
   bindEvents = () => {
-    addEvent("click", this.$reloadBtn, e => {
+    addEvent("click", this.$reloadBtn, (e) => {
       console.log("Reload Data");
       const index = this.$target.dataset.index;
       this.onReload(index);
     });
 
-    addEvent("click", this.$shareBtn, e => {
+    addEvent("mousedown", this.$shareBtn, (e) => {
+      console.log("share");
+    });
+    addEvent("touchend", this.$shareBtn, (e) => {
       console.log("share");
     });
 
-    addEvent("click", this.$plusBtn, e => {
+    addEvent("click", this.$plusBtn, (e) => {
+      const $addSearch = document.querySelector(".AddrSearch ");
+      $addSearch.classList.add("active");
+    });
+    addEvent("touchend", this.$plusBtn, (e) => {
       const $addSearch = document.querySelector(".AddrSearch ");
       $addSearch.classList.add("active");
     });
