@@ -1,0 +1,44 @@
+#App {
+  width: 100vw;
+  height: 100vh;
+  /* font-family: "Nanum Gothic", sans-serif; */
+  font-family: "Sunflower", sans-serif;
+}
+
+#Page-Container {
+  position: relative;
+  background: #222;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  z-index: 1;
+  -ms-overflow-style: none;
+}
+
+#Page-Container::-webkit-scrollbar {
+  display: none;
+}
+
+#Page-Wrapper {
+  position: relative;
+  top: 0;
+  width: 10000px;
+}
+
+#Page-Wrapper.shifting {
+  transition: left 0.3s ease-out;
+}
+
+.page {
+  width: 100vw;
+  background: #ff8686;
+  color: black;
+  float: left;
+  /* transition: all 1s; */
+  position: relative;
+}
+
+.page > section {
+  height: 100vh;
+}
