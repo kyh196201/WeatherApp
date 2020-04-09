@@ -80,6 +80,7 @@ class CurrentWeather {
     this.$location.innerHTML = this.addressString;
 
     //이벤트 생성
+
     this.bindEvents();
   }
 
