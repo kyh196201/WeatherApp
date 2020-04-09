@@ -5,11 +5,17 @@ import TimeStamp from "../../utils/Services/TimeStamp.js";
 import { CLOCK_MODE } from "../../utils/Services/constants.js";
 
 class CurrentWeather {
-  constructor({ $target, data, locationString }) {
+  constructor({ $target, data, addressString, onReload }) {
     //$target = page
     this.$target = $target;
     this.data = data;
-    this.locationString = locationString;
+    this.addressString = addressString;
+    this.onReload = onReload;
+
+    //섹션 컴포넌트 생성
+    const $wrapper = document.createElement("section");
+    $wrapper.className = "CurrentWeather__wrapper";
+    this.$wrapper = $wrapper;
 
     //헤더 컴포넌트 생성
     const $header = document.createElement("header");
@@ -36,18 +42,18 @@ class CurrentWeather {
     $buttons.className = "CurrentWeather__buttons";
     this.$buttons = $buttons;
 
-    const $reloadBtn = document.createElement("button");
-    $reloadBtn.innerHTML = "새로고침";
+    const $reloadBtn = document.createElement("a");
+    $reloadBtn.innerHTML = `<i class="fas fa-retweet"></i>`;
     $reloadBtn.className = "reloadBtn";
     this.$reloadBtn = $reloadBtn;
 
-    const $shareBtn = document.createElement("button");
-    $shareBtn.innerHTML = "공유하기";
+    const $shareBtn = document.createElement("a");
+    $shareBtn.innerHTML = `<i class="fas fa-share-square"></i>`;
     $shareBtn.className = "shareBtn";
     this.$shareBtn = $shareBtn;
 
-    const $plusBtn = document.createElement("button");
-    $plusBtn.innerHTML = "추가하기";
+    const $plusBtn = document.createElement("a");
+    $plusBtn.innerHTML = `<i class="fas fa-plus"></i>`;
     $plusBtn.className = "plusBtn";
     this.$plusBtn = $plusBtn;
 
@@ -59,17 +65,19 @@ class CurrentWeather {
     this.$nav.appendChild(this.$buttons);
 
     //어펜드
-    this.$target.appendChild(this.$header);
-    this.$target.appendChild(this.$nav);
+    this.$wrapper.appendChild(this.$header);
+    this.$wrapper.appendChild(this.$nav);
 
     //섹션 컴포넌트 생성
     this.$section = new Section({
-      $target: this.$target,
-      data: null
+      $target: this.$wrapper,
+      data: null,
     });
 
+    this.$target.appendChild(this.$wrapper);
+
     new TimeStamp({ $target: this.$timeStamp, mode: CLOCK_MODE.CURRENT });
-    this.$location.innerHTML = this.locationString;
+    this.$location.innerHTML = this.addressString;
 
     //이벤트 생성
     this.bindEvents();
@@ -77,74 +85,61 @@ class CurrentWeather {
 
   render = () => {
     this.$section.setState(this.data);
-    this.$location.innerHTML = this.locationString;
-
-    console.log("최초 어플 작동");
+    this.$location.innerHTML =
+      `<i class="fas fa-location-arrow"></i>` + this.addressString;
   };
 
-  //setState에서 page에서 전달된 isReload(flag)값을 통해 전달/갱신할 값을 선별한다.
-  //reload = false의 경우, 모든 데이터 갱신
-  //true의 경우 SKY, T1H, REH값만 갱신
-  setState = ({ newData, isReload, locationString }) => {
-    const nowDataItem = newData.nowDataItem;
-    const vilDataItem = newData.vilDataItem;
+  setState = ({ newData }) => {
+    const SKY = newData.nowData.filter((el) => el.category === "SKY");
+    const T1H = newData.nowData.filter((el) => el.category === "T1H");
+    const REH = newData.nowData.filter((el) => el.category === "REH");
+    const RN1 = newData.nowData.filter((el) => el.category === "RN1");
 
-    //최초 어플 실행의 경우 모든 데이터를 표시해야하므로
-    //모든 데이터 할당
-    //데이터를 새 데이터로 교체 렌더링 함수시작
-    if (!isReload) {
-      const REH = nowDataItem.find(data => data.category === "REH").obsrValue;
-      const T1H = nowDataItem.find(data => data.category === "T1H").obsrValue;
-      const TMN = vilDataItem.find(data => data.category === "TMN").fcstValue;
-      const TMX = vilDataItem.find(data => data.category === "TMX").fcstValue;
-      const SKY = vilDataItem.find(data => data.category === "SKY").fcstValue;
+    const TMX = newData.vilData.filter((el) => el.category === "TMX");
+    const TMN = newData.vilData.filter((el) => el.category === "TMN");
 
-      const newGetData = {
-        REH,
-        T1H,
-        TMN,
-        TMX,
-        SKY
+    const d = new Date();
+    const todayDate = d.getDate();
+    const dateEnd = parseInt(TMX[0].fcstDate.substring(6));
+
+    this.data["nowData"] = {
+      SKY: SKY[0],
+      T1H: T1H[0],
+      REH: REH[0],
+      RN1: RN1[0],
+    };
+
+    if (!this.data.vilData || todayDate === dateEnd) {
+      this.data["vilData"] = {
+        TMX: TMX[0],
+        TMN: TMN[0],
       };
-
-      this.data = newGetData;
     }
-    //선택 데이터만 할당
-    //나머지데이터는 기존의 데이터를 그대로 유지
-    //데이터를 새 데이터로 교체 렌더링 함수 시작
-    else {
-      const REH = nowDataItem.find(data => data.category === "REH").obsrValue;
-      const T1H = nowDataItem.find(data => data.category === "T1H").obsrValue;
-      const SKY = vilDataItem.find(data => data.category === "SKY").fcstValue;
-
-      const newGetData = {
-        REH,
-        T1H,
-        TMN: this.data.TMN,
-        TMX: this.data.TMN,
-        SKY
-      };
-
-      this.data = newGetData;
-      console.log("새로고침 시");
-    }
-    this.locationString = locationString;
+    this.addressString = newData.addressString;
     this.render();
   };
 
   bindEvents = () => {
-    addEvent("click", this.$reloadBtn, e => {
-      console.log("reload");
-      //새로고침 버튼도 Page의 인덱스가 0일경우에는 좌표부터 다시불러와야하고,
-      //다른 페이지일 경우 데이터만 새로 불러온다.
+    addEvent("click", this.$reloadBtn, (e) => {
+      console.log("Reload Data");
+      const index = this.$target.dataset.index;
+      this.onReload(index);
     });
 
-    addEvent("click", this.$shareBtn, e => {
+    addEvent("mousedown", this.$shareBtn, (e) => {
+      console.log("share");
+    });
+    addEvent("touchend", this.$shareBtn, (e) => {
       console.log("share");
     });
 
-    addEvent("click", this.$plusBtn, e => {
-      console.log("plus");
+    addEvent("click", this.$plusBtn, (e) => {
+      const $addSearch = document.querySelector(".AddrSearch ");
+      $addSearch.classList.add("active");
+    });
+    addEvent("touchend", this.$plusBtn, (e) => {
+      const $addSearch = document.querySelector(".AddrSearch ");
+      $addSearch.classList.add("active");
     });
   };
 }
