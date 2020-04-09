@@ -345,9 +345,9 @@ vilData : []
    => 최초 가지고온 동네 데이터에서 데이터값을 파싱?!
    1.2 아이콘은 SKY, R06, S06을 조합해서 만들자
 
-2) 새로고침 만들기
+2) 새로고침 만들기 [X]
 
-3) 주간 데이터 받아오기
+3) 주간 데이터 받아오기 [O]
    3.1 시간대별 날씨 => 동네 예보를 쓰면 될거같다.
    3.1.1 우선 동네 예보를 받아오고, 현재 시간 기준.
    3.2 주간 날씨 => 주간날씨 데이터 사용
@@ -374,8 +374,425 @@ vilData : []
 
    \*\*\* loadData를 분리하자!!
    why???데이터 하나를 불러오는걸 완료하고 또 다른 데이터를 불러오므로 효율이떨어짐 따라서 필요할때 동시에 데이터들을 불러와야한다.
-   Promise.all을 사용해보자.
+   Promise.all을 사용해보자. [O]
    링크 : <https://stackoverflow.com/questions/35612428/call-async-await-functions-in-parallel>
+
+//////////////////////////
+
+수정한것
+
+1. filter = 조건이 true가 되는 엘리먼트들을 필터링한다
+   이때, 엘리먼트의 해당 키값의 value에 따라 필터링하고 싶었는데, 조건들을 SAMPLE이라는 배열에 저장해놓고, 해당 키값의 value가 SAMPLE이라는 배열 안에 존재하는지 확인하여 있으면 true를 반환하는 includes함수를 통해 해결했다.
+
+2. 그리고 loadData함수를 제거하고, 각 데이터를 불러오는 함수를 따로 호출했다.
+
+3. 최초 init함수 실행시 vilData의 데이터개수를 그냥 200개로 설정.
+   => 페이징 기법을 어떻게해야할지 모르겠다.
+
+4. 각 불러온 데이터들에서 원하는 값만을 추출해서 page내의 data 객체에 저장하도록 설정.
+
+5. Promise.all [O]
+
+6. API변경 : 초단기실황 -> 초단기 예보
+   따라서 초단기예보에서 ,T1H, SKY, REH, R1N을 불러온다.
+   => baseTime변경
+   => 초기 동네예보에서는 최고/최저온도만 불러온다.
+
+7. getVailData 변경
+
+   7.1 변경안
+   : 최초에 TMN,TMX값만 가져온다 시간 기준 : 전날 23시
+   =>NUMOFROWS : 50
+   : 그리고 최초 어플 실행시에도 현재시간을 기준으로 데이터 가져와야함
+   => 3시간온도, 강수확률, 강수량 등등..
+   =>NUMOFROWS : 200
+   => isInit이라는 Flag변수를 생성,
+   => isInit = true일시 초기화이므로, 23시데이터, 50개
+   => isInit = Flase일시 새로고침 및 시간대날씨데이터
+   => 200개, 현재시간 기준 데이터
+   => POP,R06,S06,T3H,SKY,
+
+   7.2 3개를 동시에 promise.all로 가져올수 있나?
+   => 가능!
+
+8. 문제점 찾은거 : page의 nowDate를 각 api, setbase가 참조해서 date의 값이 변경된다. getVilWeather의 date.setdate()부분때문인듯
+   =>따라서 참조한 date값을 새로운 변수에 담아서 사용하자.[X]
+   그냥 api내에서 새 date객체를 만드는 방식으로! [O]
+
+////////////////////////
+
+03/26
+
+오늘 할것
+
+1. 두번째 섹션 만들기 : 섹션은 그냥 엘리먼트로 만들고, 안에있는
+   시간대별, 주간 날씨를 표시하는 부분을 엘리먼트로 만든다.
+   1.1 header-timestamp [O]
+   1.2 header-location [O]
+   1.3 시간대별 날씨 구조잡기
+
+2. byTimeData를 가져오는 데는 성공했으나 이것을 어떻게 렌더링할지 생각해보자
+   => fcstTime을 기준으로 데이터를 묶을수있나?!
+
+---
+
+\*오늘 수정한 것
+
+1. CurrentWeather와 같은 섹션안에 전체를 묶는 Wrapper 섹션 생성 후 거기에 컴포넌트들을 append하는 방식으로 수정
+
+=> 엘리먼트 명은 \$wrapper
+
+2. App 하위의 Container의 클래스명을 App-conatiner로 수정
+
+---
+
+////////////////////
+
+03/27
+
+오늘 수정한 것
+
+1. 시간대별 데이터 정렬까지 성공
+
+2.
+
+---
+
+오늘 할 것
+
+1. 시간대별날씨 컴포넌트 만들고, 렌더링하기
+
+2. groupBy()함수 연습하기
+
+---
+
+오늘 배운 것
+
+1. str.substr()
+
+2. Object.keys(), Object.values()
+
+3. array.reduce(), array.filter(), array.map()
+
+////////////////////
+
+03/28
+
+오늘 한 것
+
+1. Page -> MainWeather -> ByTimeWeather.js 중에서
+
+2. ByTimeWeather.js에 데이터 렌더링 까지 성공
+
+---
+
+내일 할 것
+
+1. ByTimeWeather.js에 데이터 렌더링된 데이터 구조 다시 잡기, 좀더 자세히 표시
+   => 아이콘도 해야한다
+   => 첫번째 시간이 현재 2시 35분인데 06시 부터 데이터가 나온다. 따라서 baseTime을 3시간 전으로 해야하나?!
+   => 개선 방안 : 처음에 Page의 init에서 로드한 현재 온도(초단기예보)의 데이터를 이용해서 지금(현재)에 해당하는 부분을 렌더링 하면 되지 않을까?!
+2. 주간 데이터 및 지역 코드 불러오기 도전해보자
+
+///////////////////////
+
+04/02
+
+오늘 한것
+
+1. api.js에서 geVilDate함수 수정. 시간 기준을 2시 11분으로 하여 2시 11분 이전에는 전날의 2시 데이터를 가져오고, 이후에는
+   오늘의 2시 데이터를 가져오도록 설정했다.
+
+2. byTimeData에 데이터 표시시 '지금' 이랑 현재 온도 표시 --> 실패..?
+   => 문제점 : 현재온도에는 POP이 없다.
+
+3. 중기육상예보조회 이용해서 7일간의 데이터 보여주기
+   => 오늘 ~ + 6일
+
+//////
+
+내일 할것
+
+1. 주소 선택하는 화면 만들기
+
+2. 주소선택 마지막 값의 x,y,lat,lon 값 가져오기
+
+3. 주간예보는 openweather을 사용해보자.
+
+4.
+
+////
+
+04/03
+
+수정할 것
+
+1. 첫번째 page에 coord, gridXy를 app.js에서 전달하는 방식으로 수정해보자
+   => 두번재 페이지를 생성할때 매개변수로 좌표를 전달할 수 있도록, [O]
+
+2. 새로고침 버튼 클릭시 app.js에 있는 함수 호출 및 app.js의 기본 좌표 변경.
+
+3. new Page 함수를 통해서 만들었는데 이부분 고민 필요,,
+
+4. 최초 표시되는 주소를 page생성할때 전달해야하는가? [X] => 전달받은 좌표를 구글 api를 활용해 주소값을 받아온다.
+
+5. addSearch 컴포넌트를 제일위로 올리자, 새 페이지가 추가될때 위치가 애매함 [O]
+
+6. 구글 api사용해서 lat,lng값으로 주소를불러온다 -> 이를 page의 setState에 전달해서 각 페이지에 뿌려준다.
+   6.1 어떻게 렌더링할지, 어떻게 주소값을 스트링형태로 가져올지 고민 [O] 스트링형태로 받아옴.
+   6.2 지역코드??!
+
+7. this.\$currentWeather에 data : null => data:{}로 수정했다.
+   currentWeather의 index.js에서 받아온 데이터를
+   this.data에 동적으로 추가해야하는데
+   초기에 null로되어있었기 때문에 this.data[''] = {}이런식으로
+   추가할때 'Uncaught TypeError: Cannot set property 'value' of null'가 발생했다.
+   말그대로 null에 값을 넣을수 없다는뜻!
+   그래서 빈 객체로 바꿔줬다!
+
+8) currentWeather index.js의 setState 변경
+   isInit 삭제, 가져온 데이터에서 TMX,TMN은 잘 결정해서 수정해야하는데, 가져온 데이터의 첫번째 값의 fcstDate의 날짜(끝 2글자)가 현재 날짜와 같으면 교체! 다르면 기각
+
+9. 어떻게하면 fetch 속도를 올릴수있을까.. 고민
+
+10. 디자인 필요
+
+////
+
+04/04
+
+오늘 할 것
+
+1. 로드 화면 추가 async, await이용 [O]
+
+2. addSearch 데이터 가져오는 것을 화면이 클릭되었을시로 변경
+
+3. 전체적인 design
+
+---
+
+시도중
+
+1. 로드 화면 만들기 :
+   1.1 컴포넌트화? 아니면 그냥 함수화?!
+   => 미리 생성해놓고 함수하자.
+   1.2 img width동적으로 결정?! X => 미디어쿼리 사용!
+   1.3 로딩화면 function 생성
+   => true-> display block ,false->display none으로동작하도록 [O]
+
+2. 추가하기 버튼 클릭시 addsearch화면 나오도록
+   display -> visibility = hidden으로 변경
+   두개의 차이점 : <http://webberstudy.com/html-css/css-2/display-and-visibility-property/> [O]
+
+3. AddSearch 컴포넌트에 닫기버튼 추가 [O]
+
+4. 문제점 발견 -> addSearch를 통해 도시를 선택하고 다시 추가하기 버튼을 통해 addSearch에 들어가면 마지막 level3의 데이터들이 남아있다.
+   => getData의 구조를 변화하고,
+   처음에 level 1의데이터를 initialData로 받아놨다가,
+   도시를 선택하면 다시 this.data를 initialData로 바꿔서 render하도록 변경해보자
+   4.1 우선 getdata안의 setState삭제.
+
+   [X]
+
+5. 문제점 2 => gridXY를 변경해서 displayLocation을하면 정확도가 너무떨어진다따라서 gridXY말고 lat,lon값을 전달해야한다.
+   [O] 데이터 구조 변경 성공, gridXY 변경하는 함수에서 애초에 x,y,lat,lng가 나오므로
+   전체적으로 locationData를 만들어서 전송함.
+
+---
+
+해결할 것
+
+1. addSearch 마지막 렌더링된 값 남아잇는것 해결하기 [O]
+
+2. page를 새로 생성하면 이걸 저장했다가 다시 불러오는 것.
+   => 해당 좌표만 있으면 계속 생성할 수 있지 않을까?!!
+
+////
+
+04/06
+
+\*\*\*오늘 안것
+
+1. const func = params=>{
+
+} params로 매개변수를 설정하면
+func({ a,b}) 처럼 객체형식으로 인자를 전달해야한다.
+
+오늘 한 것
+
+1. css 디자인
+
+2. addSearch 마지막 렌더링된 값 남아잇는것 해결하기
+   => this.getDataAfterLoad();의 위치를 변경하는 것으로 해결
+   => 마지막 레벨3의 버튼이 클릭되면, setState전에 type = Wide로 변경해줘야한다. [O]
+
+3. page를 새로 생성하면 이걸 저장했다가 다시 불러오는 것.
+   => 해당 좌표만 있으면 계속 생성할 수 있지 않을까?!! [O]
+   => 페이지를 생성할때, 사용된 locationData를 로컬스토리지에 저장해놓자. [O]
+   => 그것보다 어떻게 page들을 관리할까!?
+   page라는 배열을 생성해놓고 생성된 page들을 그 page에 push?하는건어떨까
+   => 그러면 생성시에는 push [O]
+   => 삭제시에는 해당되는 페이지의 index를 찾아서 삭제. \*\*\*
+   => localStorage pageData 에 page의 index도 저장하자 = X
+   => 새로 추가할때 addressString을 찾아서 중복을 방지해보자\*\*\*
+
+4. 새 페이지를 생성할때 클릭해서 얻은 도시이름을 전달할까?
+   구글 지도api를 통해 지역이름을 구하니 오차가 심하다. [o]
+
+5. Page.js loadData() 생성 -> isAddress에 따라 동작
+   => 첫 페이지가 생성될때 작동한다. addNewPage로 생성되는 다른 페이지들은
+   addressString을 전달받으므로 작동안함
+6. locationString -> addressString으로 변수명 변경
+
+7. App의 getPosition을 Page에서 동작하도록
+   => 첫 페이지를 불러올때 null값을 인자로 전달해서
+   page의 init 내에서 getPosition을 하도록
+
+8. 첫 페이지는 ls에 저장 X
+
+9. page.js에 this.\$pages 생성해서 페이지들을 모두관리.
+   => 추가되는 페이지 계쏙 추가 이뮤터블방식
+
+10. addrSearch에서 마지막 버튼 클릭시 addressString을 전달하도록
+
+11. addrSearch 마지막 값 문제 해결
+
+\*\*\*내일 할 것
+
+1. 로딩화면 하나 더 추가 => 데이터 불러올때 화면, 초기 로딩 화면
+
+2. 도시 이름들 데이터를 저장해놓고 상위 버튼을 클릭하면 해당 데이터를 불러오기.
+   => previousData = ?
+
+3. 새 page추가할때, 중복 방지해보기 ls에서 addressString을 참조해보자 [O]
+   => 마지막 버튼 클릭할때 localStorage를 통해서 기존의 도시가 등록되어있는지 확인한다.
+   => 있으면 그 페이지로 이동? [X]
+
+4. css 디자인 \*\*\*
+
+5. 새로고침 , 공유하기
+   => 새로고침 버튼 첫 페이지는 위치까지 다시불러옴
+   => 두번재 페이지부터는 데이터만 다시불러옴
+
+6. 아이콘, 인삿말, \*\*\*
+   => 조합
+
+문제점
+
+1. localStorage에 저장된 page를 불러올때 로딩화면이 끝나고 생성된다
+   => 어차피 한화면에 한페이지씩만 보여지므로 상관없나?!
+
+2. App.js가 실행될때 localStorage에서 존재하는 값들을 통해 addNewPage를 하면 다시 또 로컬스토리지에 등록된다
+   => addNewPage안에있는 로컬스토리지 저장함수를 빼서, addrSearch의 마지막 버튼 클릭할때로 옮긴다.
+
+///////
+
+04/07
+
+오늘 할 것
+
+1. 로딩화면 하나 더 추가 => 데이터 불러올때 화면, 초기 로딩 화면
+
+2. 도시 이름들 데이터를 저장해놓고 상위 버튼을 클릭하면 해당 데이터를 불러오기.
+   => previousData = ?
+
+3. 새 page추가할때, 중복 방지해보기 ls에서 addressString을 참조해보자
+   => 마지막 버튼 클릭할때 localStorage를 통해서 기존의 도시가 등록되어있는지 확인한다.
+   => findInlocalStorage()함수 생성 -> 스토리지가 비었거나, 해당 도시가 존재하면 NaN 반환-> 해당 도시가 있으면 index값 반환. -> isNaN()을 통해 동작하도록 작성
+   => 있으면 그 페이지로 이동?
+   => 그 페이지로 이동하기위해 페이지의 index값을 알 필요가 있다. 따라서
+   => localStorage에 page의 index값도 저장하자. [O]
+   => index값을 통해 해당 페이지의 style값 변경 가능 [O]
+   => 이제 그 페이지로 이동하도록
+
+4. css 디자인 \*\*\*
+
+5. 새로고침 , 공유하기
+   => 새로고침 버튼 첫 페이지는 위치까지 다시불러옴
+   => 두번재 페이지부터는 데이터만 다시불러옴 [O]
+   -> page의 setState안에 loadedData를 보내고 안에서 데이터 분류해서 newData를 만드는 방식으로 수정
+   -> reloadData(index) -> index === 0이면 좌표부터 다시 받고, this.addressString = ''으로 초기화해서 주소값도 다시받도록
+   -> index !== 0 이면 날씨값만 받아옴 [O]
+
+6. 아이콘, 인삿말, \*\*\*
+   => 조합
+
+7. 페이지 삭제하기 구현
+   => 페이지마다 버튼? or addrSearch에 버튼
+
+문제점
+
+1. localStorage에 저장된 page를 불러올때 로딩화면이 끝나고 생성된다
+   => 어차피 한화면에 한페이지씩만 보여지므로 상관없나?!
+
+2. App.js가 실행될때 localStorage에서 존재하는 값들을 통해 addNewPage를 하면 다시 또 로컬스토리지에 등록된다
+   => addNewPage안에있는 로컬스토리지 저장함수를 빼서, addrSearch의 마지막 버튼 클릭할때로 옮긴다.[O]
+
+---
+
+공부할것
+
+1. css width에 관하여
+
+2. javascript call,aply,bind
+
+3. touch & clientX 등등..
+
+4. swiper사용해보기
+
+5. github merge
+
+내일 할것 + 해결할 것
+
+1. slide Error, 새로 페이지 추가할때 에러, resize에러...
+
+2. 제대로 동작안함 그냥....이거 해결하자
+   => 동작은 제대로 되는데 개판이다...
+   bind를 사용했고, app.js안에 slide 선언, 그리고 this.index를 선언해서 이것을 통해서 slide가 현재 어디에있는지 확인하려고 함.. 좀더 수정해야할듯...
+
+04/08
+
+오늘 할 것
+
+1. 전체적인 디자인
+
+2.
+
+당장 해결 할 것
+
+1. resize 끝날때만 이벤트 발생하도록 하는 것.
+   => custom event 만드는 것 공부.
+
+2. slide를 컴포넌트화로 바꿔보자..
+   => 반정도 성공,,
+
+3. 왼쪽 최대로 움직일 수 있는 left를 위해 custom 이벤트 발생
+   -> 래퍼런스 https://blog.eunsatio.io/develop/Javascript-dispatchEvent%EB%A1%9C-%EC%9A%94%EC%86%8C-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%B0%9C%EC%83%9D%EC%8B%9C%ED%82%A4%EA%B8%B0 [O]
+
+문제점
+
+1. mobile<-> 데스크탑 계속 변환할때 onresize가 여러번 호출됨
+   => resize가 여러번 걸쳐서 되므로 그때마다 계속 slide() 가 호출되었다.
+   => 따라서 그안에서 addEventListener이 계속 발생해서, items에
+   touch 이벤트가 계속해서 추가되었다.
+   -> 여기서 알게된점. items.onmousedown = function()식으로 변경하면
+   이 문제점을 해결할 수는 있다.
+
+2. mobile에서 touch 가 먹히질 않음.
+   -> touchend 이벤트 추가로 해결했다.
+
+---
+
+오늘 배운 것
+
+1. resize 끝날때 호출하는 것
+
+2. custom event, dispatch Event
+
+3. css 100vw는 스크롤바의 너비 포함인데, 이를 없애고 기능은 그대로 하는 방법
+   ->https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_hide_scrollbar_keep_func
+
+---
 
 참고할 자료 :
 
@@ -400,7 +817,7 @@ vilData : []
 
 4. CORS?! 문제 해결하긴함 : https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors
 
-5. 가장 가까운 시간 구하기.
+5. 가장 가까운 시간 구하기. [O]
 
 6. 컴포넌트 파일들을 어떻게 구별하는지 및 파일들을 어떻게 정리?! 하는지
 
@@ -414,3 +831,6 @@ vilData : []
 
 3. 데이터를 가져오는 시간이 너무 느리다
    3.1 가져오는 데이터의 숫자를 줄여야하나?!
+   ==> 우선 Promise.all을 사용해서 동시에 데이터 받아오는 방식 [세모]
+
+4. currentWeather section이름 수정, class Section 이름 수정필요
