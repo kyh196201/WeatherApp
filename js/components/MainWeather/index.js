@@ -39,7 +39,7 @@ class MainWeather {
     new TimeStamp({ $target: this.$timeStamp, mode: CLOCK_MODE.MAIN });
     this.$byTimeWeather = new ByTimeWeather({
       $target: this.$section,
-      data: null
+      data: null,
     });
     this.$locationInfo.innerHTML = this.addressString;
   }
@@ -52,6 +52,7 @@ class MainWeather {
 
   render = () => {
     this.$locationInfo.innerHTML = this.addressString;
+
     //하위 컴포넌트들의 setState()호출
     this.$byTimeWeather.setState({ newData: this.data.byTimeData });
   };

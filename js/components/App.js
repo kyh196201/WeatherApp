@@ -10,7 +10,6 @@ import Slide from "../utils/Services/Slide.js";
 function App({ $target }) {
   this.$target = null;
   this.$pages = [];
-  this.index = 0; //for slide
 
   const init = async () => {
     this.$target = $target;

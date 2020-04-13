@@ -1,7 +1,7 @@
 /* Common */
 .CurrentWeather__wrapper {
-  border: 3px solid red;
   color: white;
+  padding: 0;
 }
 
 .CurrentWeather__header {
@@ -43,6 +43,10 @@
   text-align: center;
   line-height: 3rem;
   padding: 0 0.75rem;
+}
+
+.Current__icon > i {
+  color: black;
 }
 
 /* Extra small devices (phones, 600px and down) */

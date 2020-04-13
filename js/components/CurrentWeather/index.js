@@ -94,6 +94,7 @@ class CurrentWeather {
     const T1H = newData.nowData.filter((el) => el.category === "T1H");
     const REH = newData.nowData.filter((el) => el.category === "REH");
     const RN1 = newData.nowData.filter((el) => el.category === "RN1");
+    const PTY = newData.nowData.filter((el) => el.category === "PTY");
 
     const TMX = newData.vilData.filter((el) => el.category === "TMX");
     const TMN = newData.vilData.filter((el) => el.category === "TMN");
@@ -107,6 +108,7 @@ class CurrentWeather {
       T1H: T1H[0],
       REH: REH[0],
       RN1: RN1[0],
+      PTY: PTY[0],
     };
 
     if (!this.data.vilData || todayDate === dateEnd) {
@@ -121,6 +123,12 @@ class CurrentWeather {
 
   bindEvents = () => {
     addEvent("click", this.$reloadBtn, (e) => {
+      console.log("Reload Data");
+      const index = this.$target.dataset.index;
+      this.onReload(index);
+    });
+
+    addEvent("touchend", this.$reloadBtn, (e) => {
       console.log("Reload Data");
       const index = this.$target.dataset.index;
       this.onReload(index);

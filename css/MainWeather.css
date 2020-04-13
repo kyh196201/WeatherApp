@@ -1,0 +1,66 @@
+/*Common*/
+.MainWeather__wrapper {
+  border: 1px solid red;
+  padding: 0;
+}
+
+.MainWeather__header {
+  margin-bottom: 5rem;
+}
+
+.MainWeather__section {
+  background: #fff;
+}
+
+.byTimeWeather {
+  padding: 1.5rem;
+}
+
+.byTimeWeather__title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.byTimeWeather__wrapper {
+}
+
+.byTimeWeather__field {
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.byTimeWeather__field > ul {
+  display: inline-block;
+}
+
+/*Mobile*/
+@media only screen and (max-width: 600px) {
+  .MainWeather__wrapper {
+    border: 1px solid red;
+    padding: 0.75rem;
+  }
+  .MainWeather__header {
+    font-size: 2rem;
+    color: white;
+  }
+
+  .MainWeather__section {
+    background: #fff;
+    width: calc(100% - 1.5rem);
+  }
+
+  .byTimeWeather__wrapper {
+    width: 100%;
+  }
+
+  .byTimeWeather__field {
+    border: 1px solid black;
+    width: 100%;
+  }
+
+  .byTimeWeather__title {
+    text-align: center;
+    font-size: 1.25rem;
+  }
+}

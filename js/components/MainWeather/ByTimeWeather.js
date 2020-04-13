@@ -11,12 +11,17 @@ class ByTimeWeather {
     $title.className = "byTimeWeather__title";
     this.$title = $title;
 
+    const $wrapper = document.createElement("div");
+    $wrapper.className = "byTimeWeather__wrapper";
+    this.$wrapper = $wrapper;
+
     const $field = document.createElement("div");
     $field.className = "byTimeWeather__field";
     this.$field = $field;
 
+    this.$wrapper.appendChild(this.$field);
     this.$body.appendChild(this.$title);
-    this.$body.appendChild(this.$field);
+    this.$body.appendChild(this.$wrapper);
     this.$target.appendChild(this.$body);
   }
 
@@ -39,6 +44,7 @@ class ByTimeWeather {
       }
     }
     this.$field.innerHTML = contString;
+    this.$title.innerHTML = "시간대별 날씨";
   };
 
   setState = ({ newData }) => {

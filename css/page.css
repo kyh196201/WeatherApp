@@ -1,5 +1,6 @@
 #App {
   width: 100vw;
+  min-width: 360px;
   height: 100vh;
   /* font-family: "Nanum Gothic", sans-serif; */
   font-family: "Sunflower", sans-serif;
@@ -32,6 +33,7 @@
 
 .page {
   width: 100vw;
+  min-width: 360px;
   background: #ff8686;
   color: black;
   float: left;

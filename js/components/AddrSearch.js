@@ -4,7 +4,7 @@ import {
   addEvent,
   loading,
   loadFromLocalStorage,
-  storeToLocalStorage
+  storeToLocalStorage,
 } from "../utils/Services/functions.js";
 
 class AddrSearch {
@@ -42,7 +42,7 @@ class AddrSearch {
     this.$target.appendChild(this.$AddrSearch);
 
     try {
-      this.getData().then(data => {
+      this.getData().then((data) => {
         this.initialData = data;
         this.setState(data);
       });
@@ -50,11 +50,11 @@ class AddrSearch {
       console.error(e);
     }
 
-    addEvent("click", this.$closeBtn, e => {
+    addEvent("click", this.$closeBtn, (e) => {
       this.$AddrSearch.classList.remove("active");
     });
 
-    this.$ul.addEventListener("click", e => {
+    this.$ul.addEventListener("click", (e) => {
       if (e.target.nodeName !== "BUTTON") {
         return;
       }
@@ -94,13 +94,12 @@ class AddrSearch {
               x: target.dataset.x,
               y: target.dataset.y,
               lat: target.dataset.lat,
-              lng: target.dataset.lng
+              lng: target.dataset.lng,
             };
             const pageIndex = this.findInLocalStorage(addressString);
             if (isNaN(pageIndex)) {
               const index = document.getElementById("Page-Wrapper").childNodes
                 .length;
-              console.log(index);
               storeToLocalStorage({ locationData, addressString, index });
               this.onClick({ locationData, addressString });
             } else {
@@ -111,6 +110,8 @@ class AddrSearch {
             }
             this.$AddrSearch.classList.remove("active");
             this.TYPE = TYPESLIST.w; //상위 버튼 남아있는 것을 없애기 위해
+            this.CITY_CODE = "";
+            this.WIDE_CODE = "";
             this.setState(this.initialData);
             this.address = [];
             break;
@@ -129,14 +130,14 @@ class AddrSearch {
       upperString = `<li class="addr-item"><button class="addr-button" data-goto=${TYPESLIST.c}>상위</button></li>`;
     }
     const htmlString = this.data
-      .map(item => {
+      .map((item) => {
         return `<li class="addr-item"><button class="addr-button" data-code=${item.code} data-level=${item.level} data-x=${item.x} data-y=${item.y} data-lat=${item.lat} data-lng=${item.lon} data-name=${item.name}>${item.name}</button></li>`;
       })
       .join("");
     this.$ul.innerHTML = upperString + htmlString;
   };
 
-  setState = newData => {
+  setState = (newData) => {
     this.data = newData;
     this.render();
   };
@@ -152,18 +153,18 @@ class AddrSearch {
     return await getCity({
       type: this.TYPE,
       wideCode: this.WIDE_CODE,
-      cityCode: this.CITY_CODE
+      cityCode: this.CITY_CODE,
     });
   };
 
-  findInLocalStorage = addressString => {
+  findInLocalStorage = (addressString) => {
     const pageData = loadFromLocalStorage("pageData");
 
     if (pageData === null) {
       return NaN;
     }
 
-    const foundData = pageData.filter(e => e.addressString === addressString);
+    const foundData = pageData.filter((e) => e.addressString === addressString);
     if (foundData.length === 1) {
       return foundData[0].index;
     }

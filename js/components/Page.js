@@ -225,6 +225,7 @@ class Page {
             lat: this.locationData.lat,
             lng: this.locationData.lng,
           });
+          console.log(location.results);
           return location.results
             .filter((item) => {
               return item.types.includes("postal_code");
