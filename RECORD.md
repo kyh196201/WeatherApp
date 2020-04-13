@@ -792,6 +792,20 @@ func({ a,b}) 처럼 객체형식으로 인자를 전달해야한다.
 3. css 100vw는 스크롤바의 너비 포함인데, 이를 없애고 기능은 그대로 하는 방법
    ->https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_hide_scrollbar_keep_func
 
+04/13
+
+해야할 것
+
+1. 슬라이드 오류 해결, swiper적용해보기
+
+2. css 디자인 다듬기
+
+3. main weather부분 css
+
+4. Icon 어떻게 할지!
+
+5. 깃허브 레파지토리 다시 옮기기
+
 ---
 
 참고할 자료 :

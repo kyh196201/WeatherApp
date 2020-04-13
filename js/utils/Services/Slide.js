@@ -27,7 +27,10 @@ export default function Slide({ wrapper, items }) {
     } else {
       console.log("mouseup");
       posX1 = e.clientX;
-      document.onmouseup = dragEnd;
+      document.onmouseup = (e) => {
+        console.log(e);
+        dragEnd(e);
+      };
       document.onmousemove = dragAction;
     }
   };
@@ -82,6 +85,7 @@ export default function Slide({ wrapper, items }) {
   };
 
   const dragEnd = (e) => {
+    console.log(e.type);
     posFinal = items.offsetLeft;
     if (posFinal - posInitial < -threshold) {
       shiftSlide.bind(this)(1, "drag");
@@ -144,12 +148,14 @@ export default function Slide({ wrapper, items }) {
 
   // Touch events
   items.addEventListener("touchstart", (e) => {
+    console.log(e.type);
     dragStart(e);
   });
   items.addEventListener("touchend", (e) => {
     dragEnd(e);
   });
   items.addEventListener("touchmove", (e) => {
+    console.log(e.type);
     dragAction(e);
   });
 
