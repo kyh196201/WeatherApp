@@ -24,11 +24,11 @@ class AddrSearch {
 
     const $title = document.createElement("h4");
     this.$title = $title;
-    this.$title.innerHTML = "검색하세요";
+    this.$title.innerHTML = "지역검색";
 
     const $closeBtn = document.createElement("button");
     this.$closeBtn = $closeBtn;
-    this.$closeBtn.innerHTML = "X";
+    this.$closeBtn.innerHTML = `<i class="fas fa-times"></i>`;
     this.$closeBtn.className = "AddrSearch-close";
 
     const $ul = document.createElement("ul");

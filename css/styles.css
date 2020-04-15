@@ -6,6 +6,7 @@
 @import "./page.css";
 @import "./CurrentWeather.css";
 @import "./MainWeather.css";
+@import "./addrSearch.css";
 
 *,
 *:before,
@@ -13,30 +14,8 @@
   box-sizing: border-box;
 }
 
-body,
 html {
-  min-width: 360px;
+  scroll-behavior: smooth;
 }
 
 /* For Mobile */
-
-/*임시 addrSearch*/
-
-.AddrSearch {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  background: #678ec7;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0.3s linear, opacity 0.3s linear;
-  overflow-y: scroll;
-}
-
-.AddrSearch.active {
-  visibility: visible;
-  opacity: 1;
-  z-index: 100;
-}

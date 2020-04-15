@@ -135,9 +135,11 @@ class CurrentWeather {
     });
 
     addEvent("mousedown", this.$shareBtn, (e) => {
+      e.stopPropagation();
       console.log("share");
     });
     addEvent("touchend", this.$shareBtn, (e) => {
+      e.stopPropagation();
       console.log("share");
     });
 

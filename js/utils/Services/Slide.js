@@ -1,3 +1,5 @@
+import { addEvent } from "../Services/functions.js";
+
 export default function Slide({ wrapper, items }) {
   let posX1 = 0;
   let posX2 = 0;
@@ -8,6 +10,7 @@ export default function Slide({ wrapper, items }) {
   let allowShift = true;
   this.index = 0;
   this.$slides = null;
+  let isDown = false;
 
   this.init = () => {
     this.$slides = items.getElementsByClassName("page"); //slide 노드 배열
@@ -17,28 +20,24 @@ export default function Slide({ wrapper, items }) {
   };
 
   const dragStart = (e) => {
+    isDown = true;
     e = e || window.event;
     e.preventDefault();
     posInitial = items.offsetLeft;
 
     if (e.type == "touchstart") {
-      console.log("touchstart");
       posX1 = e.touches[0].clientX;
     } else {
-      console.log("mouseup");
-      posX1 = e.clientX;
-      document.onmouseup = (e) => {
-        console.log(e);
-        dragEnd(e);
-      };
-      document.onmousemove = dragAction;
+      posX1 = e.clientX; //최초 클릭 위치
     }
   };
 
   const dragAction = (e) => {
+    if (!isDown) {
+      return;
+    }
     e = e || window.event;
     if (e.type == "touchmove") {
-      console.log("touchmove");
       posX2 = posX1 - e.touches[0].clientX;
       posX1 = e.touches[0].clientX;
     } else {
@@ -85,18 +84,15 @@ export default function Slide({ wrapper, items }) {
   };
 
   const dragEnd = (e) => {
-    console.log(e.type);
     posFinal = items.offsetLeft;
     if (posFinal - posInitial < -threshold) {
-      shiftSlide.bind(this)(1, "drag");
+      shiftSlide(1, "drag");
     } else if (posFinal - posInitial > threshold) {
-      shiftSlide.bind(this)(-1, "drag");
+      shiftSlide(-1, "drag");
     } else {
       items.style.left = posInitial + "px";
     }
-
-    document.onmouseup = null;
-    document.onmousemove = null;
+    isDown = false;
   };
 
   const shiftSlide = (dir, action) => {
@@ -129,36 +125,72 @@ export default function Slide({ wrapper, items }) {
 
   function checkIndex() {
     items.classList.remove("shifting");
-    if (this.index == -1) {
-      items.style.left = -(slidesLength * slideSize) + "px";
-      this.index = slidesLength - 1;
-    }
+    // if (this.index == -1) {
+    //   items.style.left = -(slidesLength * slideSize) + "px";
+    //   this.index = slidesLength - 1;
+    // }
 
-    if (this.index == slidesLength) {
-      items.style.left = -(1 * slideSize) + "px";
-      this.index = 0;
-    }
+    // if (this.index == slidesLength) {
+    //   items.style.left = -(1 * slideSize) + "px";
+    //   this.index = 0;
+    // }
     allowShift = true;
   }
 
   // Mouse and Touch events
-  items.onmousedown = (e) => {
-    dragStart(e);
-  };
 
-  // Touch events
-  items.addEventListener("touchstart", (e) => {
-    console.log(e.type);
+  addEvent("mousedown", items, (e) => {
+    // const target = e.target;
+    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
+    //   return;
+    // }
     dragStart(e);
   });
-  items.addEventListener("touchend", (e) => {
+
+  addEvent("mouseup", items, (e) => {
+    // const target = e.target;
+    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
+    //   return;
+    // }
     dragEnd(e);
   });
-  items.addEventListener("touchmove", (e) => {
-    console.log(e.type);
+
+  addEvent("mousemove", items, (e) => {
+    // const target = e.target;
+    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
+    //   return;
+    // }
     dragAction(e);
   });
 
+  // Touch events
+
+  addEvent("touchstart", items, (e) => {
+    // const target = e.target;
+    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
+    //   return;
+    // }
+    dragStart(e);
+  });
+
+  addEvent("touchmove", items, (e) => {
+    // const target = e.target;
+    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
+    //   return;
+    // }
+    dragAction(e);
+  });
+
+  addEvent("touchend", items, (e) => {
+    // const target = e.target;
+    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
+    //   return;
+    // }
+    dragEnd(e);
+  });
+
   // Transition events
-  items.addEventListener("transitionend", checkIndex.bind(this));
+  addEvent("transitionend", items, (e) => {
+    checkIndex();
+  });
 }

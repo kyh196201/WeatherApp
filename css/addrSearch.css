@@ -1,0 +1,125 @@
+:root {
+  --white-color: #f0f2f6;
+  --background-color: #eef2f7;
+  --border-color: #346ca3;
+}
+
+/* Common */
+.AddrSearch {
+  min-width: 360px;
+  padding: 1rem;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background: var(--background-color);
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s linear, opacity 0.3s linear;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+
+.AddrSearch::-webkit-scrollbar {
+  display: none;
+}
+
+.AddrSearch.active {
+  visibility: visible;
+  opacity: 1;
+  z-index: 100;
+}
+
+h4 {
+  font-size: 2.5rem;
+  text-align: center;
+  padding: 0.5rem 0;
+  font-weight: bold;
+  letter-spacing: 0.25rem;
+  margin-bottom: 4rem;
+}
+
+.AddrSearch-close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: inherit;
+  outline: none;
+  display: flex;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  font-weight: bold;
+  font-size: 1.25rem;
+  width: 30px;
+  height: 30px;
+}
+
+.AddrSearch-close:hover {
+  opacity: 0.5;
+}
+
+.AddrSearch-list {
+  width: 100%;
+}
+
+.AddrSearch-list > li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  width: calc(33.33% - 2px);
+  margin: 1px;
+  background: #fff;
+  text-align: center;
+}
+.AddrSearch-list > li > button {
+  display: block;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  color: #595959;
+  font-size: 15px;
+  cursor: pointer;
+  background-color: inherit;
+  border: none;
+  overflow: hidden;
+}
+
+.AddrSearch-list > li:hover button {
+  border-color: var(--border-color);
+  border-width: 1px;
+  border-style: solid;
+}
+
+@media only screen and (max-width: 768px) {
+  h4 {
+    font-size: 2.25rem;
+    margin-bottom: 3rem;
+  }
+}
+
+/* Mobile */
+@media only screen and (max-width: 400px) {
+  h4 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    margin-top: 2rem;
+  }
+  .AddrSearch-list > li > button {
+    display: block;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    color: #595959;
+    font-size: 15px;
+    cursor: pointer;
+    background-color: inherit;
+    border: none;
+    overflow: hidden;
+    font-size: 0.8rem;
+  }
+}

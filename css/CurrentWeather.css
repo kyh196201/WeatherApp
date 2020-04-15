@@ -1,48 +1,83 @@
+:root {
+  --white-color: #fbfbfc;
+}
+
 /* Common */
 .CurrentWeather__wrapper {
-  color: white;
-  padding: 0;
+  padding: 1rem;
 }
 
 .CurrentWeather__header {
   margin-bottom: 1rem;
+  color: var(--white-color);
 }
 
 .CurrentWeather__header .CurrentWeather__timeStamp {
-  font-size: 0.75rem;
+  font-size: 1.5rem;
 }
 
 .CurrentWeather__nav {
-  /* display: flex; */
-  margin-bottom: 1rem;
+  color: var(--white-color);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5rem;
+}
+
+.CurrentWeather__location {
+  display: flex;
+  align-items: center;
+  font-size: 1.75rem;
 }
 
 .CurrentWeather__location > i {
+  font-size: 1.5rem;
   margin-right: 0.5rem;
 }
 
 .CurrentWeather__nav .CurrentWeather__buttons {
+  display: flex;
   cursor: pointer;
 }
 
 .CurrentWeather__nav .CurrentWeather__buttons a {
-  transition: color 0.3 ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  transition: color 0.3s ease, backgroundColor 0.3s ease;
+  margin-left: 0.25rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0 0.5rem;
+  font-size: 1.25rem;
+  border-radius: 10%;
 }
 
 .CurrentWeather__nav .CurrentWeather__buttons a:hover {
   color: black;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .CurrentWeather__section > ul > li {
+  clear: both;
   float: left;
-  clear: left;
-  height: 3rem;
-  background: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: var(--white-color);
+  border-radius: 6px;
   color: black;
-  margin-bottom: 0.5rem;
-  text-align: center;
-  line-height: 3rem;
-  padding: 0 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 2rem 1.25rem;
+  font-size: 1.75rem;
+}
+
+.CurrentWeather__section > ul > li > span {
+  padding-right: 0.5rem;
+}
+
+.CurrentWeather__section > ul > li > span:last-child {
+  padding: 0;
 }
 
 .Current__icon > i {
@@ -50,16 +85,67 @@
 }
 
 /* Extra small devices (phones, 600px and down) */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .CurrentWeather__wrapper {
     padding: 0.75rem;
   }
   .CurrentWeather__header {
     margin-bottom: 1rem;
   }
+
+  .CurrentWeather__header .CurrentWeather__timeStamp {
+    font-size: 1.25rem;
+  }
+
   .CurrentWeather__nav {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 4rem;
+  }
+
+  .CurrentWeather__location {
+    font-size: 1.5rem;
+  }
+  .CurrentWeather__location > i {
+    font-size: 1.25rem;
+  }
+
+  .CurrentWeather__nav .CurrentWeather__buttons a {
+    width: 26px;
+    height: 26px;
+    padding: 0 0.5rem;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+  }
+
+  .CurrentWeather__section {
+    margin-top: 2rem;
+  }
+
+  .CurrentWeather__section > ul > li {
+    margin-bottom: 1rem;
+    padding: 1.75rem 1rem;
+    font-size: 1.5rem;
+    border-radius: 4px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .CurrentWeather__wrapper {
+    padding: 0.5rem;
+  }
+  .CurrentWeather__header {
+    margin-bottom: 1rem;
+  }
+
+  .CurrentWeather__header .CurrentWeather__timeStamp {
+    font-size: 1rem;
+  }
+
+  .CurrentWeather__nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
   }
 
   .CurrentWeather__location {
@@ -69,35 +155,56 @@
     font-size: 1rem;
   }
 
-  .CurrentWeather__buttons > a {
-    padding: 0 0.25rem;
-    font-size: 1rem;
-  }
-
-  .CurrentWeather__buttons > a:first-child {
-    padding-left: 0px;
-  }
-
-  .CurrentWeather__buttons > a:last-child {
-    padding-right: 0px;
+  .CurrentWeather__nav .CurrentWeather__buttons a {
+    width: 23px;
+    height: 23px;
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
   }
 
   .CurrentWeather__section > ul > li {
-    float: left;
-    clear: left;
-    height: 3rem;
-    background: white;
-    color: black;
-    margin-bottom: 0.5rem;
-    text-align: center;
-    line-height: 3rem;
-    padding: 0 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 1.5rem 0.75rem;
+    font-size: 1.25rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .CurrentWeather__wrapper {
+    padding: 0.5rem;
+  }
+  .CurrentWeather__header {
+    margin-bottom: 1rem;
   }
 
-  .CurrentWeather__section > ul > li > span {
-    padding: 0 0.25rem;
+  .CurrentWeather__header .CurrentWeather__timeStamp {
+    font-size: 1rem;
   }
-  .CurrentWeather__section > ul > li > span:last-child {
-    margin: 0;
+
+  .CurrentWeather__nav {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .CurrentWeather__location {
+    font-size: 1rem;
+  }
+  .CurrentWeather__location > i {
+    font-size: 0.75rem;
+  }
+
+  .CurrentWeather__nav .CurrentWeather__buttons a {
+    width: 23px;
+    height: 23px;
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+  }
+
+  .CurrentWeather__section > ul > li {
+    margin-bottom: 0.75rem;
+    padding: 1.5rem 0.75rem;
+    font-size: 1.25rem;
   }
 }

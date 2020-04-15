@@ -45,14 +45,18 @@ class Section {
     if (Array.isArray(skyState)) {
       if (isSnow) {
         skyState = "Snow";
-      } else {
+      } else if (isRain) {
         skyState = "Rain";
+      } else {
+        skyState = "Cloudy";
       }
     }
 
-    const icon = `<span class="Current__icon"><i class="wi ${weatherCases[skyState].icon[iconTimeSelector]}"></i></span>`;
-    const sky = `<span class="Current__skyState">${weatherCases[skyState].title}</span>`;
-    const currentTemp = `<span class="Current__currentTemp">${this.nowData.T1H.fcstValue}	&ordm;</span>`;
+    const weatherVar = weatherCases[skyState];
+
+    const icon = `<span class="Current__icon"><i class="wi ${weatherVar.icon[iconTimeSelector]}" style="color:${weatherVar.color[iconTimeSelector]}"></i></span>`;
+    const sky = `<span class="Current__skyState">${weatherVar.title}</span>`;
+    const currentTemp = `<span class="Current__currentTemp">${this.nowData.T1H.fcstValue}&ordm;</span>`;
     const minMaxTemp = `<span class="Current__minMaxTemp">${this.vilData.TMX.fcstValue}&ordm;/${this.vilData.TMN.fcstValue}&ordm;</span>`;
     const wet = `<span class="Current__wet">${this.nowData.REH.fcstValue}%</span>`;
     this.$currentInfo.innerHTML = icon + sky + currentTemp + minMaxTemp + wet;
