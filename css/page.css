@@ -10,6 +10,7 @@
   overflow-x: hidden;
   overflow-y: scroll;
   z-index: 1;
+  scroll-behavior: smooth;
   -ms-overflow-style: none;
 }
 

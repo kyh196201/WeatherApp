@@ -3,9 +3,12 @@ import AddrSearch from "./AddrSearch.js";
 import {
   loadFromLocalStorage,
   storeToLocalStorage,
+  addEvent,
 } from "../utils/Services/functions.js";
 import dfs_xy_conv from "../utils/Services/gridLatLon.js";
 import Slide from "../utils/Services/Slide.js";
+import ScrollEvent from "../utils/Services/ScrollEvent.js";
+import scrollEvent from "../utils/Services/ScrollEvent.js";
 
 function App({ $target }) {
   this.$target = null;
@@ -25,6 +28,9 @@ function App({ $target }) {
 
     this.$target.appendChild(this.$pageContainer);
     this.$pageContainer.appendChild(this.$pageWrapper);
+
+    //Add scroll Event
+    scrollEvent({ $element: this.$pageContainer, initial: false });
 
     this.slide = new Slide({
       wrapper: this.$pageContainer,
@@ -70,12 +76,13 @@ function App({ $target }) {
     this.$pages = [...this.$pages, newPage];
   };
 
-  window.onresize = (e) => {
-    console.log(e);
+  window.onresize = _.debounce(() => {
+    console.log("resized");
     const width = document.querySelector(".page").offsetWidth;
     this.$pageWrapper.style.left = -(this.index * width) + "px";
     this.slide.init();
-  };
+    scrollEvent({ $element: this.$pageContainer, initial: true });
+  }, 100);
 
   init();
   console.log("App is Start");
