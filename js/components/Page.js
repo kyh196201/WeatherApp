@@ -19,7 +19,7 @@ import {
 
 class Page {
   //***문제점 발견 : 새로 생성되는 Page일 경우, coords값을 전달해줘야한다. 또는 gridXY값
-  constructor({ $target, index, locationData, addressString }) {
+  constructor({ $target, index, locationData, addressString, onShowShare }) {
     this.data = null;
     this.$target = $target;
     this.nowDate = new Date();
@@ -42,6 +42,7 @@ class Page {
       data: {},
       addressString: this.addressString,
       onReload: this.reloadData,
+      onShowShare,
     });
 
     this.$mainWeather = new MainWeather({

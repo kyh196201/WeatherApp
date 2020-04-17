@@ -1,4 +1,5 @@
 import { SKY_STATE, weatherCases } from "../../utils/Services/constants.js";
+import { addEvent } from "../../utils/Services/functions.js";
 
 class Section {
   constructor({ $target, data }) {
@@ -18,7 +19,7 @@ class Section {
     const $currentInfo = document.createElement("li");
     $currentInfo.className = "CurrentWeather__info";
     this.$currentInfo = $currentInfo;
-    this.$currentInfo.innerHTML = "로드중입니다...";
+    this.$currentInfo.innerHTML = "정보를 불러오는 중입니다.";
 
     const $currentGreet = document.createElement("li");
     $currentGreet.className = "CurrentWeather__greet";
@@ -29,6 +30,8 @@ class Section {
 
     this.$section.appendChild(this.$ul);
     this.$target.appendChild(this.$section);
+
+    this.bindEvents();
   }
 
   render = () => {
@@ -68,6 +71,19 @@ class Section {
     this.vilData = newData.vilData;
     console.log(this.nowData, this.vilData);
     this.render();
+  };
+
+  bindEvents = () => {
+    addEvent("click", this.$currentInfo, (e) => {
+      e.stopPropagation();
+      const target = document.querySelector(".MainWeather__wrapper");
+      target.scrollIntoView();
+    });
+    addEvent("touchend", this.$currentInfo, (e) => {
+      e.stopPropagation();
+      const target = document.querySelector(".MainWeather__wrapper");
+      target.scrollIntoView();
+    });
   };
 }
 

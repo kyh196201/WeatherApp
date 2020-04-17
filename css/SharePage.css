@@ -1,0 +1,69 @@
+.sharePage {
+  /* display: none; */
+  position: fixed;
+  display: flex;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Black w/ opacity */
+}
+
+.content-wrapper {
+  align-self: center;
+  padding: 1rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  max-width: 430px;
+  min-width: 340px;
+  min-height: 500px;
+  margin: auto;
+}
+
+.content-wrapper h3 {
+  text-align: center;
+}
+
+.modal__desc {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.modal__desc > span {
+  text-align: center;
+}
+
+.modal__content {
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.modal__content > div {
+  flex-basis: calc(50% - 20px);
+  margin: 10px;
+}
+
+.modal__content > div > a {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+.modal__content > div > a > img {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.modal__content > div > a > span {
+  font-size: 0.75rem;
+}
+
+img {
+}

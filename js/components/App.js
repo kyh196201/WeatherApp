@@ -7,8 +7,8 @@ import {
 } from "../utils/Services/functions.js";
 import dfs_xy_conv from "../utils/Services/gridLatLon.js";
 import Slide from "../utils/Services/Slide.js";
-import ScrollEvent from "../utils/Services/ScrollEvent.js";
 import scrollEvent from "../utils/Services/ScrollEvent.js";
+import SharePage from "./SharePage.js";
 
 function App({ $target }) {
   this.$target = null;
@@ -29,9 +29,6 @@ function App({ $target }) {
     this.$target.appendChild(this.$pageContainer);
     this.$pageContainer.appendChild(this.$pageWrapper);
 
-    //Add scroll Event
-    scrollEvent({ $element: this.$pageContainer, initial: false });
-
     this.slide = new Slide({
       wrapper: this.$pageContainer,
       items: this.$pageWrapper,
@@ -43,6 +40,9 @@ function App({ $target }) {
       index: this.$pageWrapper.childNodes.length,
       locationData: null,
       addressString: null,
+      onShowShare: () => {
+        this.$sharePage.setState({ visible: true });
+      },
     });
     this.$pages = [...this.$pages, firstPage];
 
@@ -61,27 +61,31 @@ function App({ $target }) {
       onClick: this.addNewPage,
     });
 
+    this.$sharePage = new SharePage({ $target: this.$target, visible: false });
+
     this.slide.init();
   };
 
   this.addNewPage = ({ locationData, addressString }) => {
-    const index = this.$pageWrapper.childNodes.length;
+    // const index = this.$pageWrapper.childNodes.length;
     const newPage = new Page({
       $target: this.$pageWrapper,
       index: this.$pageWrapper.childNodes.length,
       locationData,
       addressString,
+      onShowShare: () => {
+        this.$sharePage.setState({ visible: true });
+      },
     });
     this.slide.init();
     this.$pages = [...this.$pages, newPage];
   };
 
   window.onresize = _.debounce(() => {
-    console.log("resized");
+    // console.log("resized");
     const width = document.querySelector(".page").offsetWidth;
     this.$pageWrapper.style.left = -(this.index * width) + "px";
     this.slide.init();
-    scrollEvent({ $element: this.$pageContainer, initial: true });
   }, 100);
 
   init();

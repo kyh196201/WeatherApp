@@ -5,12 +5,13 @@ import TimeStamp from "../../utils/Services/TimeStamp.js";
 import { CLOCK_MODE } from "../../utils/Services/constants.js";
 
 class CurrentWeather {
-  constructor({ $target, data, addressString, onReload }) {
+  constructor({ $target, data, addressString, onReload, onShowShare }) {
     //$target = page
     this.$target = $target;
     this.data = data;
     this.addressString = addressString;
     this.onReload = onReload;
+    this.onShowShare = onShowShare;
 
     //섹션 컴포넌트 생성
     const $wrapper = document.createElement("section");
@@ -74,6 +75,14 @@ class CurrentWeather {
       data: null,
     });
 
+    const $scrollDownBtn = document.createElement("div");
+    $scrollDownBtn.innerHTML =
+      '<a href="#"><i class="fas fa-sort-down"></i></a>';
+    $scrollDownBtn.className = "CurrentWeather__scrollDownBtn";
+    this.$scrollDownBtn = $scrollDownBtn;
+
+    this.$wrapper.appendChild(this.$scrollDownBtn);
+
     this.$target.appendChild(this.$wrapper);
 
     new TimeStamp({ $target: this.$timeStamp, mode: CLOCK_MODE.CURRENT });
@@ -136,10 +145,12 @@ class CurrentWeather {
 
     addEvent("mousedown", this.$shareBtn, (e) => {
       e.stopPropagation();
+      this.onShowShare();
       console.log("share");
     });
     addEvent("touchend", this.$shareBtn, (e) => {
       e.stopPropagation();
+      this.onShowShare();
       console.log("share");
     });
 
@@ -150,6 +161,17 @@ class CurrentWeather {
     addEvent("touchend", this.$plusBtn, (e) => {
       const $addSearch = document.querySelector(".AddrSearch ");
       $addSearch.classList.add("active");
+    });
+
+    addEvent("click", this.$scrollDownBtn, (e) => {
+      e.preventDefault();
+      const target = document.querySelector(".MainWeather__wrapper");
+      target.scrollIntoView();
+    });
+
+    addEvent("touchend", this.$scrollDownBtn, (e) => {
+      const target = document.querySelector(".MainWeather__wrapper");
+      target.scrollIntoView();
     });
   };
 }

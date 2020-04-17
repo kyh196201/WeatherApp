@@ -123,7 +123,11 @@ class ByTimeWeather {
       console.log(walk);
     };
 
-    addEvent("mousedown", this.$body, (e) => {
+    addEvent("mousedown", this.$target, (e) => {
+      e.stopPropagation();
+    });
+
+    addEvent("touchstart", this.$target, (e) => {
       e.stopPropagation();
     });
 
