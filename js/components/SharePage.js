@@ -14,7 +14,7 @@ class SharePage {
   render = () => {
     if (this.visible) {
       this.$sharePage.innerHTML = `
-        <div class="content-wrapper">
+      <div class="content-wrapper zoomOut">
         <h3 class="modal__title">공유하기</h3>
         <div class="modal__desc">
           <span>현대카드 웨더와 날씨 정보를</span>
@@ -50,9 +50,22 @@ class SharePage {
             >
           </div>
         </div>
+        <button class="modal__closeBtn"><i class="fas fa-times"></i></button>
       </div>
         `;
+      const wrapper = document.querySelector(".content-wrapper");
+      const closeBtn = document.querySelector(".modal__closeBtn");
+      wrapper.classList.toggle("zoomOut");
+      wrapper.classList.toggle("zoomIn");
       this.$sharePage.style.display = "block";
+      closeBtn.onclick = (e) => {
+        wrapper.classList.toggle("zoomOut");
+        wrapper.classList.toggle("zoomIn");
+        setTimeout(() => {
+          this.$sharePage.style.display = "none";
+        }, 500);
+        window.onclick = null;
+      };
     } else {
       this.$sharePage.style.display = "none";
     }

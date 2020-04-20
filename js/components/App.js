@@ -40,8 +40,8 @@ function App({ $target }) {
       index: this.$pageWrapper.childNodes.length,
       locationData: null,
       addressString: null,
-      onShowShare: () => {
-        this.$sharePage.setState({ visible: true });
+      onClickShare: () => {
+        this.showpageEvent();
       },
     });
     this.$pages = [...this.$pages, firstPage];
@@ -64,6 +64,22 @@ function App({ $target }) {
     this.$sharePage = new SharePage({ $target: this.$target, visible: false });
 
     this.slide.init();
+  }; //End Init()
+
+  this.showpageEvent = () => {
+    this.$sharePage.setState({ visible: true });
+    window.onclick = (e) => {
+      const _target = e.target;
+      if (_target === document.querySelector(".sharePage")) {
+        const wrapper = document.querySelector(".content-wrapper");
+        wrapper.classList.toggle("zoomOut");
+        wrapper.classList.toggle("zoomIn");
+        setTimeout(() => {
+          this.$sharePage.setState({ visible: false });
+        }, 500);
+        window.onclick = null;
+      }
+    };
   };
 
   this.addNewPage = ({ locationData, addressString }) => {
@@ -73,8 +89,8 @@ function App({ $target }) {
       index: this.$pageWrapper.childNodes.length,
       locationData,
       addressString,
-      onShowShare: () => {
-        this.$sharePage.setState({ visible: true });
+      onClickShare: () => {
+        this.showpageEvent();
       },
     });
     this.slide.init();
@@ -82,7 +98,6 @@ function App({ $target }) {
   };
 
   window.onresize = _.debounce(() => {
-    // console.log("resized");
     const width = document.querySelector(".page").offsetWidth;
     this.$pageWrapper.style.left = -(this.index * width) + "px";
     this.slide.init();

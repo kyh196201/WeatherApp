@@ -5,13 +5,13 @@ import TimeStamp from "../../utils/Services/TimeStamp.js";
 import { CLOCK_MODE } from "../../utils/Services/constants.js";
 
 class CurrentWeather {
-  constructor({ $target, data, addressString, onReload, onShowShare }) {
+  constructor({ $target, data, addressString, onReload, onClickShare }) {
     //$target = page
     this.$target = $target;
     this.data = data;
     this.addressString = addressString;
     this.onReload = onReload;
-    this.onShowShare = onShowShare;
+    this.onClickShare = onClickShare;
 
     //섹션 컴포넌트 생성
     const $wrapper = document.createElement("section");
@@ -145,12 +145,12 @@ class CurrentWeather {
 
     addEvent("mousedown", this.$shareBtn, (e) => {
       e.stopPropagation();
-      this.onShowShare();
+      this.onClickShare();
       console.log("share");
     });
     addEvent("touchend", this.$shareBtn, (e) => {
       e.stopPropagation();
-      this.onShowShare();
+      this.onClickShare();
       console.log("share");
     });
 
