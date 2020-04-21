@@ -146,6 +146,29 @@ const storeToLocalStorage = (params) => {
   }
 };
 
+function detectThemeMode() {
+  const toggleCheckBox = document.querySelector(".checkbox");
+  console.log("detecting...");
+  let theme = "light"; //default
+  const storageTheme = localStorage.getItem("theme");
+
+  if (storageTheme) {
+    theme = storageTheme;
+  } else if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    theme = "dark";
+  }
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("theme", theme);
+  if (theme === "dark") {
+    toggleCheckBox.checked = true;
+  } else {
+    toggleCheckBox.checked = false;
+  }
+}
+
 export {
   addEvent,
   setBase,
@@ -154,4 +177,5 @@ export {
   loading,
   storeToLocalStorage,
   loadFromLocalStorage,
+  detectThemeMode,
 };

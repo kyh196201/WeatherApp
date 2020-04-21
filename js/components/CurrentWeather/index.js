@@ -2,7 +2,7 @@
 import Section from "./Section.js";
 import { addEvent } from "../../utils/Services/functions.js";
 import TimeStamp from "../../utils/Services/TimeStamp.js";
-import { CLOCK_MODE } from "../../utils/Services/constants.js";
+import { CLOCK_MODE, TOGGLE_STRING } from "../../utils/Services/constants.js";
 
 class CurrentWeather {
   constructor({ $target, data, addressString, onReload, onClickShare }) {
@@ -68,6 +68,7 @@ class CurrentWeather {
     //어펜드
     this.$wrapper.appendChild(this.$header);
     this.$wrapper.appendChild(this.$nav);
+    // this.$wrapper.appendChild(this.$toggleContainer);
 
     //섹션 컴포넌트 생성
     this.$section = new Section({

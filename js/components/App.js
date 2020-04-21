@@ -4,6 +4,7 @@ import {
   loadFromLocalStorage,
   storeToLocalStorage,
   addEvent,
+  detectThemeMode,
 } from "../utils/Services/functions.js";
 import dfs_xy_conv from "../utils/Services/gridLatLon.js";
 import Slide from "../utils/Services/Slide.js";
@@ -61,9 +62,11 @@ function App({ $target }) {
       onClick: this.addNewPage,
     });
 
+    //SharePage
     this.$sharePage = new SharePage({ $target: this.$target, visible: false });
 
     this.slide.init();
+    // detectThemeMode();
   }; //End Init()
 
   this.showpageEvent = () => {
@@ -104,6 +107,7 @@ function App({ $target }) {
   }, 100);
 
   init();
+  detectThemeMode();
   console.log("App is Start");
 }
 

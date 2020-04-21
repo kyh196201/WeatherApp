@@ -39,21 +39,25 @@ class ByTimeWeather {
         const hours = this.data[i][j][0].fcstTime.substr(0, 2);
         const isDayTime = hours > 6 && hours < 20;
         const iconTimeSelector = isDayTime ? 0 : 1;
-        const skyValue = this.data[i][j].find((it) => it.category === "SKY")
-          .fcstValue;
+        const skyValue = this.data[i][j].find((it) => it.category === "SKY");
+        const skyFcstValue =
+          skyValue !== undefined ? skyValue.fcstValue : "undefined";
 
-        const popValue = this.data[i][j].find((it) => it.category === "POP")
-          .fcstValue;
+        const popValue = this.data[i][j].find((it) => it.category === "POP");
+        const popFcstValue =
+          popValue !== undefined ? popValue.fcstValue : "undefined";
 
-        const ptyValue = this.data[i][j].find((it) => it.category === "PTY")
-          .fcstValue;
+        const ptyValue = this.data[i][j].find((it) => it.category === "PTY");
+        const ptyFcstValue =
+          ptyValue !== undefined ? ptyValue.fcstValue : "undefined";
 
-        const tempValue = this.data[i][j].find((it) => it.category === "T3H")
-          .fcstValue;
+        const tempValue = this.data[i][j].find((it) => it.category === "T3H");
+        const tempFcstValue =
+          tempValue !== undefined ? tempValue.fcstValue : "undefined";
 
-        let skyState = SKY_STATE[skyValue].value;
-        const isRain = ptyValue === "1" || ptyValue === "4";
-        const isSnow = ptyValue === "2" || ptyValue === "3";
+        let skyState = SKY_STATE[skyFcstValue].value;
+        const isRain = ptyFcstValue === "1" || ptyFcstValue === "4";
+        const isSnow = ptyFcstValue === "2" || ptyFcstValue === "3";
 
         if (Array.isArray(skyState)) {
           if (isSnow) {
@@ -70,10 +74,10 @@ class ByTimeWeather {
         const timeString = `<li>${parseInt(hours)}시</li>`;
         const iconString = `<li><i class="wi ${weatherVar.icon[iconTimeSelector]}" style="color:${weatherVar.color[iconTimeSelector]}"></i></li>`;
         const rainPercentString =
-          popValue !== "0"
-            ? `<li>${popValue}%</li>`
-            : `<li style="visibility:hidden">${popValue}%</li>`;
-        const tempString = `<li>${tempValue}&ordm;</li>`;
+          popFcstValue !== "0"
+            ? `<li>${popFcstValue}%</li>`
+            : `<li style="visibility:hidden">${popFcstValue}%</li>`;
+        const tempString = `<li>${tempFcstValue}&ordm;</li>`;
         const htmlString =
           timeString + iconString + rainPercentString + tempString;
         contString = contString + `<ul>${htmlString}</ul>`;

@@ -8,6 +8,38 @@
 @import "./MainWeather.css";
 @import "./addrSearch.css";
 @import "./SharePage.css";
+@import "./themeToggleBtn.css";
+
+:root {
+  --white-color: #fbfbfc;
+  --text-color: #fbfbfc;
+  --a-color: #454545;
+  --add-background-color: #eef2f7;
+  --add-border-color: #346ca3;
+  --add-text-color: #595959;
+  --add-header-text-color: #595959;
+  --page-background: #e0a0a0;
+  --page-container-background: #333;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page-background: #333;
+    --page-container-background: #e0a0a0;
+    --add-border-color: #000;
+    --add-background-color: #333;
+    --add-header-text-color: #fbfbfc;
+  }
+}
+
+:root[data-theme="dark"] {
+  --page-background: #333;
+  --page-container-background: #e0a0a0;
+  --add-border-color: #000;
+  --add-background-color: #333;
+  --add-header-text-color: #fbfbfc;
+}
 
 *,
 *:before,
@@ -18,5 +50,3 @@
 html {
   scroll-behavior: smooth;
 }
-
-/* For Mobile */

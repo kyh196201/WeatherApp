@@ -1,7 +1,3 @@
-:root {
-  --white-color: #fbfbfc;
-}
-
 /* Common */
 .CurrentWeather__wrapper {
   position: relative;
@@ -10,7 +6,7 @@
 
 .CurrentWeather__header {
   margin-bottom: 1rem;
-  color: var(--white-color);
+  color: var(--text-color);
 }
 
 .CurrentWeather__header .CurrentWeather__timeStamp {
@@ -18,10 +14,10 @@
 }
 
 .CurrentWeather__nav {
-  color: var(--white-color);
+  color: var(--text-color);
   display: flex;
   justify-content: space-between;
-  margin-bottom: 5rem;
+  margin-bottom: 1rem;
 }
 
 .CurrentWeather__location {
@@ -59,13 +55,21 @@
   background-color: rgba(255, 255, 255, 0.7);
 }
 
+/* Toggle Btn */
+.CurrentWeather__toggleContainer {
+  margin-bottom: 4rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .CurrentWeather__section > ul > li {
   clear: both;
   float: left;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  background: var(--white-color);
+  background: #fbfbfc;
   border-radius: 6px;
   color: black;
   margin-bottom: 1.25rem;
@@ -85,10 +89,6 @@
   padding: 0;
 }
 
-.Current__icon > i {
-  color: black;
-}
-
 .CurrentWeather__scrollDownBtn {
   font-size: 2rem;
   position: absolute;
@@ -104,7 +104,7 @@
 }
 .CurrentWeather__scrollDownBtn > a {
   display: block;
-  color: var(--white-color);
+  color: var(--text-color);
 }
 
 /* Extra small devices (phones, 600px and down) */

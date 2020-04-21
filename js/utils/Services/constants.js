@@ -56,4 +56,18 @@ const weatherCases = {
   },
 };
 
-export { DAYS, CLOCK_MODE, FILTERING, TYPESLIST, SKY_STATE, weatherCases };
+const TOGGLE_STRING = `<div class="button r" id="button-1">
+                          <input type="checkbox" class="checkbox" />
+                          <div class="knobs"></div>
+                          <div class="layer"></div>
+                      </div>`;
+
+export {
+  DAYS,
+  CLOCK_MODE,
+  FILTERING,
+  TYPESLIST,
+  SKY_STATE,
+  weatherCases,
+  TOGGLE_STRING,
+};

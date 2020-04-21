@@ -1,3 +1,5 @@
+import { addEvent } from "../utils/Services/functions.js";
+
 class SharePage {
   constructor({ $target, visible }) {
     this.$target = $target; //App.js
@@ -7,6 +9,17 @@ class SharePage {
     $sharePage.className = "sharePage";
     this.$sharePage = $sharePage;
     this.$target.appendChild(this.$sharePage);
+
+    addEvent("click", this.$sharePage, (e) => {
+      const _target = e.target.closest("a");
+      if (_target) {
+        e.preventDefault();
+        if (window.confirm("공유하시겠습니까?!")) {
+          return;
+        }
+        return;
+      }
+    });
 
     this.render();
   }
@@ -23,29 +36,29 @@ class SharePage {
         <div class="modal__content">
           <div>
             <a href=""
-              ><img src="./images/facebook-icon.png" alt="" /><span
+              ><img src="./images/icons/facebook-icon.png" alt="" /><span
                 >페이스북</span
               ></a
             >
           </div>
           <div>
             <a href=""
-              ><img src="./images/facebook-icon.png" alt="" /><span
-                >페이스북</span
+              ><img src="./images/icons/Kakao.png" alt="" /><span
+                >카카오</span
               ></a
             >
           </div>
           <div>
             <a href=""
-              ><img src="./images/facebook-icon.png" alt="" /><span
-                >페이스북</span
+              ><img src="./images/icons/twitter-icon.png" alt="" /><span
+                >트위터</span
               ></a
             >
           </div>
           <div>
             <a href=""
-              ><img src="./images/facebook-icon.png" alt="" /><span
-                >페이스북</span
+              ><img src="./images/icons/Logos-Instagram-icon.png" alt="" /><span
+                >인스타그램</span
               ></a
             >
           </div>

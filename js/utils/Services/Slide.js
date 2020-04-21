@@ -140,52 +140,48 @@ export default function Slide({ wrapper, items }) {
   // Mouse and Touch events
 
   addEvent("mousedown", items, (e) => {
-    // const target = e.target;
-    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
-    //   return;
-    // }
+    console.log(e.type);
+    const _target = e.target;
+    console.log(_target);
+    if (_target.classList.contains("checkbox")) return;
     dragStart(e);
   });
 
   addEvent("mouseup", items, (e) => {
-    // const target = e.target;
-    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
-    //   return;
-    // }
+    console.log(e.type);
+    const _target = e.target;
+    console.log(_target);
+    if (_target.classList.contains("checkbox")) return;
     dragEnd(e);
   });
 
   addEvent("mousemove", items, (e) => {
-    // const target = e.target;
-    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
-    //   return;
-    // }
+    if (!isDown) {
+      return false;
+    }
+    const _target = e.target;
+    console.log(_target);
+    if (_target.classList.contains("checkbox")) return;
+    console.log(e.type);
     dragAction(e);
   });
 
   // Touch events
-
   addEvent("touchstart", items, (e) => {
-    // const target = e.target;
-    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
-    //   return;
-    // }
+    const _target = e.target;
+    console.log(_target);
+    if (_target.classList.contains("checkbox")) return;
     dragStart(e);
   });
 
   addEvent("touchmove", items, (e) => {
-    // const target = e.target;
-    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
-    //   return;
-    // }
+    if (!isDown) {
+      return false;
+    }
     dragAction(e);
   });
 
   addEvent("touchend", items, (e) => {
-    // const target = e.target;
-    // if (target.closest("div").classList.contains("byTimeWeather__field")) {
-    //   return;
-    // }
     dragEnd(e);
   });
 

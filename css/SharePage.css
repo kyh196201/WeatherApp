@@ -110,6 +110,8 @@
   width: 100%;
   flex-direction: column;
   align-items: center;
+  text-decoration: none;
+  color: var(--a-color);
 }
 .modal__content > div > a > img {
   width: 100%;

@@ -1,9 +1,3 @@
-:root {
-  --white-color: #f0f2f6;
-  --background-color: #eef2f7;
-  --border-color: #346ca3;
-}
-
 /* Common */
 .AddrSearch {
   min-width: 360px;
@@ -11,7 +5,7 @@
   width: 100vw;
   height: 100vh;
   position: fixed;
-  background: var(--background-color);
+  background: var(--add-background-color);
   top: 0;
   left: 0;
   visibility: hidden;
@@ -32,6 +26,7 @@
 }
 
 h4 {
+  color: var(--add-header-text-color);
   font-size: 2.5rem;
   text-align: center;
   padding: 0.5rem 0;
@@ -81,7 +76,7 @@ h4 {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  color: #595959;
+  color: var(--add-text-color);
   font-size: 15px;
   cursor: pointer;
   background-color: inherit;
@@ -90,7 +85,7 @@ h4 {
 }
 
 .AddrSearch-list > li:hover button {
-  border-color: var(--border-color);
+  border-color: var(--add-border-color);
   border-width: 1px;
   border-style: solid;
 }
@@ -114,7 +109,7 @@ h4 {
     width: 100%;
     height: 40px;
     line-height: 40px;
-    color: #595959;
+    color: var(--add-text-color);
     font-size: 15px;
     cursor: pointer;
     background-color: inherit;
