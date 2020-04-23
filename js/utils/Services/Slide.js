@@ -178,10 +178,19 @@ export default function Slide({ wrapper, items }) {
     if (!isDown) {
       return false;
     }
+
+    console.log(e.type);
+    const _target = e.target;
+    console.log(_target);
+    if (_target.classList.contains("checkbox")) return;
     dragAction(e);
   });
 
   addEvent("touchend", items, (e) => {
+    console.log(e.type);
+    const _target = e.target;
+    console.log(_target);
+    if (_target.classList.contains("checkbox")) return;
     dragEnd(e);
   });
 
