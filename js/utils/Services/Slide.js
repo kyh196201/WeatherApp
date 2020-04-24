@@ -13,6 +13,7 @@ export default function Slide({ wrapper, items }) {
   let isDown = false;
 
   this.init = () => {
+    console.log(this.index);
     this.$slides = items.getElementsByClassName("page"); //slide 노드 배열
     slidesLength = this.$slides.length; //slide 개수
     slideSize = items.getElementsByClassName("page")[0].offsetWidth; //slide의 너비
@@ -166,33 +167,33 @@ export default function Slide({ wrapper, items }) {
     dragAction(e);
   });
 
-  // Touch events
-  addEvent("touchstart", items, (e) => {
-    const _target = e.target;
-    console.log(_target);
-    if (_target.classList.contains("checkbox")) return;
-    dragStart(e);
-  });
+  // // Touch events
+  // addEvent("touchstart", items, (e) => {
+  //   const _target = e.target;
+  //   console.log(_target);
+  //   if (_target.classList.contains("checkbox")) return;
+  //   dragStart(e);
+  // });
 
-  addEvent("touchmove", items, (e) => {
-    if (!isDown) {
-      return false;
-    }
+  // addEvent("touchmove", items, (e) => {
+  //   if (!isDown) {
+  //     return false;
+  //   }
 
-    console.log(e.type);
-    const _target = e.target;
-    console.log(_target);
-    if (_target.classList.contains("checkbox")) return;
-    dragAction(e);
-  });
+  //   console.log(e.type);
+  //   const _target = e.target;
+  //   console.log(_target);
+  //   if (_target.classList.contains("checkbox")) return;
+  //   dragAction(e);
+  // });
 
-  addEvent("touchend", items, (e) => {
-    console.log(e.type);
-    const _target = e.target;
-    console.log(_target);
-    if (_target.classList.contains("checkbox")) return;
-    dragEnd(e);
-  });
+  // addEvent("touchend", items, (e) => {
+  //   console.log(e.type);
+  //   const _target = e.target;
+  //   console.log(_target);
+  //   if (_target.classList.contains("checkbox")) return;
+  //   dragEnd(e);
+  // });
 
   // Transition events
   addEvent("transitionend", items, (e) => {

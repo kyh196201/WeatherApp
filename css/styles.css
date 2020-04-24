@@ -9,6 +9,7 @@
 @import "./addrSearch.css";
 @import "./SharePage.css";
 @import "./themeToggleBtn.css";
+@import "./PageNavigator.css";
 
 :root {
   --white-color: #fbfbfc;
@@ -20,6 +21,7 @@
   --add-header-text-color: #595959;
   --page-background: #e0a0a0;
   --page-container-background: #333;
+  --navigator-color: #343a40;
 }
 
 /* Dark Mode */
@@ -30,6 +32,7 @@
     --add-border-color: #000;
     --add-background-color: #333;
     --add-header-text-color: #fbfbfc;
+    --navigator-color: #dee2e6;
   }
 }
 
@@ -39,6 +42,7 @@
   --add-border-color: #000;
   --add-background-color: #333;
   --add-header-text-color: #fbfbfc;
+  --navigator-color: #dee2e6;
 }
 
 *,

@@ -74,12 +74,17 @@ class Section {
   };
 
   bindEvents = () => {
-    addEvent("click", this.$currentInfo, (e) => {
-      e.stopPropagation();
-      const target = document.querySelector(".MainWeather__wrapper");
-      target.scrollIntoView();
-    });
-    addEvent("touchend", this.$currentInfo, (e) => {
+    // addEvent("click", this.$currentInfo, (e) => {
+    //   e.stopPropagation();
+    //   const target = document.querySelector(".MainWeather__wrapper");
+    //   target.scrollIntoView();
+    // });
+    // addEvent("touchend", this.$currentInfo, (e) => {
+    //   e.stopPropagation();
+    //   const target = document.querySelector(".MainWeather__wrapper");
+    //   target.scrollIntoView();
+    // });
+    addEvent("mousedown", this.$currentInfo, (e) => {
       e.stopPropagation();
       const target = document.querySelector(".MainWeather__wrapper");
       target.scrollIntoView();

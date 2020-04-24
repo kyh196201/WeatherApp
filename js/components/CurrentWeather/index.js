@@ -133,27 +133,25 @@ class CurrentWeather {
 
   bindEvents = () => {
     addEvent("click", this.$reloadBtn, (e) => {
-      console.log("Reload Data");
       const index = this.$target.dataset.index;
       this.onReload(index);
     });
 
     addEvent("touchend", this.$reloadBtn, (e) => {
-      console.log("Reload Data");
       const index = this.$target.dataset.index;
       this.onReload(index);
     });
 
     addEvent("mousedown", this.$shareBtn, (e) => {
+      console.log(e.type);
       e.stopPropagation();
       this.onClickShare();
-      console.log("share");
     });
-    addEvent("touchend", this.$shareBtn, (e) => {
-      e.stopPropagation();
-      this.onClickShare();
-      console.log("share");
-    });
+    // addEvent("touchend", this.$shareBtn, (e) => {
+    //   console.log(e.type);
+    //   e.stopPropagation();
+    //   this.onClickShare();
+    // });
 
     addEvent("click", this.$plusBtn, (e) => {
       const $addSearch = document.querySelector(".AddrSearch ");

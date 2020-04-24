@@ -169,6 +169,19 @@ function detectThemeMode() {
   }
 }
 
+function detectWebMode() {
+  var filter = "win16|win32|win64|macintel|mac|"; // PC일 경우 가능한 값
+
+  if (navigator.platform) {
+    if (filter.indexOf(navigator.platform.toLowerCase()) < 0) {
+      console.log("모바일에서 접속하셨습니다");
+      return "mobile";
+    } else {
+      return "pc";
+    }
+  }
+}
+
 export {
   addEvent,
   setBase,
@@ -178,4 +191,5 @@ export {
   storeToLocalStorage,
   loadFromLocalStorage,
   detectThemeMode,
+  detectWebMode,
 };

@@ -18,7 +18,6 @@ import {
 } from "../utils/Services/functions.js";
 
 class Page {
-  //***문제점 발견 : 새로 생성되는 Page일 경우, coords값을 전달해줘야한다. 또는 gridXY값
   constructor({ $target, index, locationData, addressString, onClickShare }) {
     this.data = null;
     this.$target = $target;
@@ -26,8 +25,6 @@ class Page {
     this.index = index;
     this.locationData = locationData;
     this.addressString = addressString || "";
-
-    //grid, target예외처리 null일시
 
     const $page = document.createElement("div");
     $page.className = "page";
@@ -226,7 +223,6 @@ class Page {
             lat: this.locationData.lat,
             lng: this.locationData.lng,
           });
-          console.log(location.results);
           return location.results
             .filter((item) => {
               return item.types.includes("postal_code");

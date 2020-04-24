@@ -8,9 +8,10 @@ import {
 } from "../utils/Services/functions.js";
 
 class AddrSearch {
-  constructor({ $target, onClick }) {
+  constructor({ $target, onClick, onChange }) {
     this.$target = $target;
     this.onClick = onClick;
+    this.onChange = onChange;
     this.initialData = null;
     this.data = null;
     this.TYPE = TYPESLIST.w;
@@ -104,9 +105,8 @@ class AddrSearch {
               this.onClick({ locationData, addressString });
             } else {
               //화면 해당 페이지로 전환
-              const id = `page${pageIndex}`;
-              document.getElementById(id).style.backgroundColor = "red";
-              alert("해당 도시에 대한 페이지가 이미 존재합니다.");
+              // this.onChange(pageIndex);
+              alert("page가 이미 있습니다.");
             }
             this.$AddrSearch.classList.remove("active");
             this.TYPE = TYPESLIST.w; //상위 버튼 남아있는 것을 없애기 위해

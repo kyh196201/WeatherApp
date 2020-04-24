@@ -1,0 +1,40 @@
+.leftSlideBtn,
+.rightSlideBtn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.75rem;
+  height: 1.75rem;
+  background: inherit;
+  color: var(--navigator-color);
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 33;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  visibility: hidden;
+  opacity: 0;
+  display: none;
+}
+
+.leftSlideBtn:hover,
+.rightSlideBtn:hover {
+  opacity: 0.5;
+}
+
+.leftSlideBtn.active,
+.rightSlideBtn.active {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+}
+
+.leftSlideBtn {
+  left: 1rem;
+}
+
+.rightSlideBtn {
+  right: 1rem;
+}
