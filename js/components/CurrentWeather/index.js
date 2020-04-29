@@ -147,11 +147,6 @@ class CurrentWeather {
       e.stopPropagation();
       this.onClickShare();
     });
-    // addEvent("touchend", this.$shareBtn, (e) => {
-    //   console.log(e.type);
-    //   e.stopPropagation();
-    //   this.onClickShare();
-    // });
 
     addEvent("click", this.$plusBtn, (e) => {
       const $addSearch = document.querySelector(".AddrSearch ");

@@ -27,7 +27,10 @@ class Page {
     this.addressString = addressString || "";
 
     const $page = document.createElement("div");
-    $page.className = "page";
+    $page.classList.add("page");
+    // 새로 추가
+    $page.classList.add("swiper-slide");
+    // 새로 추가
     $page.id = `page${index}`;
     $page.dataset.index = index;
     this.$page = $page;

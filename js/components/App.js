@@ -30,17 +30,35 @@ function App({ $target }) {
     const $pageContainer = document.createElement("div");
     this.$pageContainer = $pageContainer;
     this.$pageContainer.id = "Page-Container";
+    this.$pageContainer.classList.add("swiper-container");
 
     const $pageWrapper = document.createElement("div");
     this.$pageWrapper = $pageWrapper;
     this.$pageWrapper.id = "Page-Wrapper";
+    this.$pageWrapper.classList.add("swiper-wrapper");
+
+    // 새로 추가한 내용
+
+    const $prevBtn = document.createElement("div");
+    $prevBtn.className = "swiper-button-prev";
+    this.$prevBtn = $prevBtn;
+
+    const $nextBtn = document.createElement("div");
+    $nextBtn.className = "swiper-button-next";
+    this.$nextBtn = $nextBtn;
+
+    // 새로 추가한 내용
 
     this.$target.appendChild(this.$pageContainer);
     this.$pageContainer.appendChild(this.$pageWrapper);
+    this.$pageContainer.appendChild(this.$prevBtn);
+    this.$pageContainer.appendChild(this.$nextBtn);
 
-    this.slide = new Slide({
-      wrapper: this.$pageContainer,
-      items: this.$pageWrapper,
+    this.mySlider = new Swiper(".swiper-container", {
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
     });
 
     //first Page
@@ -53,7 +71,9 @@ function App({ $target }) {
         this.showpageEvent();
       },
     });
+
     this.$pages = [...this.$pages, firstPage];
+    console.log(this.$pages);
 
     //data load from ls and create another pages
     if (this.pageData !== null) {
@@ -73,20 +93,6 @@ function App({ $target }) {
 
     //SharePage
     this.$sharePage = new SharePage({ $target: this.$target, visible: false });
-
-    //PageNavigator
-    // this.pageNavigator = new PageNavigator({
-    //   $target: this.$target,
-    //   onClick: this.onNavigatePage,
-    // });
-
-    this.slide.init();
-
-    window.onresize = _.debounce(() => {
-      const width = document.querySelector(".page").offsetWidth;
-      this.$pageWrapper.style.left = -(this.index * width) + "px";
-      this.slide.init();
-    }, 100);
   }; //End Init()
 
   this.showpageEvent = () => {
@@ -116,54 +122,8 @@ function App({ $target }) {
         this.showpageEvent();
       },
     });
-    this.slide.init();
-
     this.$pages = [...this.$pages, newPage];
-  };
-
-  this.onChangePage = (index) => {
-    const { $pageWrapper } = this;
-    const slideSize = document.querySelectorAll(".page")[0].offsetWidth;
-    $pageWrapper.classList.add("shifting");
-    $pageWrapper.style.left = -(slideSize * index) + "px";
-    this.pageIndex = index;
-  };
-
-  this.onNavigatePage = (e) => {
-    const slideSize = document.querySelectorAll(".page")[0].offsetWidth;
-    const rightBtn = document.querySelector(".rightSlideBtn");
-    const leftBtn = document.querySelector(".leftSlideBtn");
-    const { $pageWrapper } = this;
-    const parent = e.target.closest("button");
-
-    console.log(this.pageIndex);
-
-    if (parent === rightBtn) {
-      this.pageIndex = this.pageIndex + 1;
-      $pageWrapper.classList.add("shifting");
-      $pageWrapper.style.left = $pageWrapper.offsetLeft - slideSize + "px";
-
-      if (this.pageIndex === this.$pages.length - 1) {
-        rightBtn.classList.remove("active");
-        leftBtn.classList.add("active");
-      } else {
-        if (!leftBtn.classList.contains("active")) {
-          leftBtn.classList.add("active");
-        }
-      }
-    } else if (parent === leftBtn) {
-      this.pageIndex = this.pageIndex - 1;
-      $pageWrapper.classList.add("shifting");
-      $pageWrapper.style.left = $pageWrapper.offsetLeft + slideSize + "px";
-      if (this.pageIndex === 0) {
-        leftBtn.classList.remove("active");
-        rightBtn.classList.add("active");
-      } else {
-        if (!rightBtn.classList.contains("active")) {
-          rightBtn.classList.add("active");
-        }
-      }
-    }
+    this.mySlider.update();
   };
 
   init();

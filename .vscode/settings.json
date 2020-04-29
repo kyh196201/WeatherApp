@@ -1,3 +1,4 @@
 {
-    "liveServer.settings.multiRootWorkspaceName": "WeatherApp"
+    "liveServer.settings.multiRootWorkspaceName": "WeatherApp",
+    "liveServer.settings.port": 5502
 }

@@ -1,6 +1,8 @@
 import { addEvent } from "../Services/functions.js";
 
 export default function Slide({ wrapper, items }) {
+  //wrapper : this.$pageContainer
+  //items : this.$pageWrapper
   let posX1 = 0;
   let posX2 = 0;
   let posInitial, posFinal;
